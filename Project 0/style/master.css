@@ -26,11 +26,16 @@ nav a:hover {
 
 .center {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40%;
     text-align: center;
+}
+
+header h1 {
+    font-family: sans-serif;
+    font-size: 70px;
 }
 
 input[type=text] {

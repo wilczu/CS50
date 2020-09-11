@@ -1,0 +1,19 @@
+nav > ul {
+  list-style-type: none;
+  padding: 5px;
+  display: flex;
+}
+
+nav > ul > li {
+  margin: 5px;
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+}
+
+nav a:hover {
+  color: gray;
+  cursor: pointer;
+}

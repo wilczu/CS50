@@ -30,6 +30,7 @@ nav a:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40%;
+    text-align: center;
 }
 
 input[type=text] {
@@ -38,6 +39,7 @@ input[type=text] {
   border: 1px solid lightgray;
   padding: 7px;
   font-size: 16px;
+  border-radius: 20px;
 }
 
 input[type=text]:hover {
@@ -45,4 +47,17 @@ input[type=text]:hover {
   -webkit-box-shadow: 0px 6px 11px 0px rgba(0,0,0,0.26);
   -moz-box-shadow: 0px 6px 11px 0px rgba(0,0,0,0.26);
   box-shadow: 0px 6px 11px 0px rgba(0,0,0,0.26);
+}
+
+input[type=submit] {
+  border: none;
+  padding: 10px;
+  background-color: lightgray;
+  margin-top: 20px;
+}
+
+input[type=submit]:hover {
+  border: 1px solid lightgray;
+  background-color: #DCDCDC;
+  cursor: pointer;
 }

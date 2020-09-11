@@ -54,10 +54,10 @@ input[type=text]:focus {
 }
 
 input[type=text]:hover {
-  border: none;
-  -webkit-box-shadow: 0px 6px 11px 0px rgba(0,0,0,0.26);
-  -moz-box-shadow: 0px 6px 11px 0px rgba(0,0,0,0.26);
-  box-shadow: 0px 6px 11px 0px rgba(0,0,0,0.26);
+  border: border: 1px solid white;
+  -webkit-box-shadow: 0px 6px 8px 0px rgba(0,0,0,0.26);
+  -moz-box-shadow: 0px 6px 8px 0px rgba(0,0,0,0.26);
+  box-shadow: 0px 6px 8px 0px rgba(0,0,0,0.26);
 }
 
 input[type=submit] {

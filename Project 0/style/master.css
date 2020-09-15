@@ -35,7 +35,7 @@ nav a:hover {
 
 .container {
     width: 700px;
-    margin: 40px;
+    margin: 60px;
 }
 
 .row {
@@ -97,14 +97,32 @@ input[type=text]:hover {
     box-shadow: 0px 6px 8px 0px rgba(0,0,0,0.26);
 }
 
+.btnGray {
+    background-color: #F2F2F2;
+}
+
+.btnGray:hover {
+    background-color: #DCDCDC;
+}
+
+.btnBlue {
+    background-color: #4889F0;
+    font-weight: bold;
+    border: 2px solid #3079ED;
+    color: #fff;
+}
+
+.btnBlue:hover {
+    background-color: #3778F0;
+}
+
 input[type=submit] {
     border: none;
+    border-radius: 2px;
     padding: 10px;
-    background-color: lightgray;
     margin-top: 20px;
 }
 
 input[type=submit]:hover {
-    background-color: #DCDCDC;
     cursor: pointer;
 }

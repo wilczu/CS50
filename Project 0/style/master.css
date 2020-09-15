@@ -55,12 +55,12 @@ nav a:hover {
 }
 
 .col > input[type=text] {
-  height: 20px;
-  border-radius: 4px;
+    height: 20px;
+    border-radius: 4px;
 }
 
 .col > input[type=text]:hover {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 .col > input[type=text]:focus {

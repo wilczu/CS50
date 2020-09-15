@@ -126,3 +126,14 @@ input[type=submit] {
 input[type=submit]:hover {
     cursor: pointer;
 }
+
+
+@media screen and (max-width: 600px) {
+    .center {
+        width: 70%;
+    }
+
+    header h1 {
+        font-size: 50px;
+    }
+}

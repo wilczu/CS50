@@ -67,8 +67,11 @@ nav a:hover {
     outline: 1px solid lightblue;
 }
 
-header h1 {
+h1, h2, h3 {
     font-family: sans-serif;
+}
+
+header h1 {
     font-size: 70px;
     padding: 10px;
     margin: 10px;

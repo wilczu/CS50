@@ -1,0 +1,13 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia - {{ query_title }}
+{% endblock %}
+
+{% block body %}
+
+    <h1>Result for the query:</h1>
+
+    <p> {{ query_result }} </p>
+
+{% endblock %}

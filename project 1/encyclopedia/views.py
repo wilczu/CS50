@@ -18,4 +18,6 @@ def wiki(request, query):
             "query_result": result
         })
     else:
-        return HttpResponse("Display error page now")
+        return render(request, "encyclopedia/error.html", {
+            "error_message": (f"Query {query} was not found!")
+        })

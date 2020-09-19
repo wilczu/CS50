@@ -7,6 +7,12 @@
 {% block body %}
     <h1>Add new page</h1>
 
+    {% if error %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+    {% endif %}
+
     <form action="{% url 'create' %}" method="POST">
       {% csrf_token %}
       {{ create_form }}

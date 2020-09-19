@@ -1,0 +1,1 @@
+Swift is a high-level programming language developed by Apple and made available in 2014. It is designed for writing apps for Apple platforms, including macOS, iOS, tvOS, and watchOS.

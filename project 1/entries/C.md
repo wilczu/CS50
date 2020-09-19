@@ -1,0 +1,1 @@
+C is a high-level programming language that was developed in the mid-1970s. It was originally used for writing Unix programs, but is now used to write applications for nearly every available platform. Compared to most previous languages, C is easier to read, more flexible (can be used for a wide variety of purposes), and more efficient at using memory.

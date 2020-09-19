@@ -1,0 +1,1 @@
+Stands for "Hypertext Preprocessor." (It is a recursive acronym, if you can understand what that means.) PHP is an HTML-embedded Web scripting language.

@@ -55,14 +55,9 @@ def search(request):
         if util.get_entry(query):
             return redirect(f'wiki/{query}')
         else:
-            results = []
             entries = util.list_entries()
-            for entry in entries:
-                if entry.lower().startswith(query.lower()):
-                    results.append(entry)
+            results = [e for e in entry if e.lower().startswith(query.lower())]
 
             return render(request, "encyclopedia/search.html", {
                 "results": results
             })
-    else:
-        return HttpResponse("I have nothing to say...")

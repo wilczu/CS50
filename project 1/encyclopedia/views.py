@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django import forms
 
@@ -28,6 +28,22 @@ def wiki(request, query):
         })
 
 def create_page(request):
+    if request.method == "POST":
+        form = CreateForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+            exists = util.get_entry(title)
+
+            if exists == None:
+                util.save_entry(title, content)
+                return redirect(f"wiki/{title}")
+            else:
+                return render(request, "encyclopedia/create.html", {
+                    "create_form": form,
+                    "error": f"Page with the title of {title} already exists!"
+                })
+
     return render(request, "encyclopedia/create.html", {
         "create_form": CreateForm()
     })

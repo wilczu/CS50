@@ -10,6 +10,8 @@
     <ul>
         {% for result in results %}
             <li><a href="wiki/{{ result }}">{{ result }}</a></li>
+            {% empty %}
+            <li>I have nothing to show here :c</li>
         {% endfor %}
     </ul>
 

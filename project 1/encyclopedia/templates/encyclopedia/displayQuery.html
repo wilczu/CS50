@@ -7,6 +7,7 @@
 {% block body %}
 
     <h1>Result for the query:</h1>
+    <a href="{% url 'edit' entry=query_title %}">Edit page</a>
 
     <p> {{ query_result }} </p>
 

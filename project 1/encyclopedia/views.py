@@ -61,3 +61,21 @@ def search(request):
             return render(request, "encyclopedia/search.html", {
                 "results": results
             })
+
+def edit(request, entry):
+
+    if request.method == "POST":
+        title = request.POST["entry_title"]
+        if(util.get_entry(title)):
+            content = request.POST["edited_content"]
+            util.save_entry(title,content)
+            return redirect(f"../wiki/{title}")
+        else:
+            return render(request, "encyclopedia/error.html", {
+                "error_message": (f"Query {title} was not found!")
+            })
+
+    return render(request, "encyclopedia/editEntry.html", {
+        "entry_title": entry,
+        "entry_content": util.get_entry(entry)
+    })

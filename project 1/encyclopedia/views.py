@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django import forms
-
+import random
 from . import util
 
 class CreateForm(forms.Form):
@@ -55,7 +55,6 @@ def search(request):
         if util.get_entry(query):
             return redirect(f'wiki/{query}')
         else:
-            entries = util.list_entries()
             results = [e for e in entries if e.lower().startswith(query.lower())]
 
             return render(request, "encyclopedia/search.html", {
@@ -79,3 +78,7 @@ def edit(request, entry):
         "entry_title": entry,
         "entry_content": util.get_entry(entry)
     })
+
+def random_wiki(request):
+    random_pick = random.choice(util.list_entries())
+    return redirect(f"../wiki/{random_pick}")

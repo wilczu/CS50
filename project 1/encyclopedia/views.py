@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django import forms
 import random
+import markdown2
 from . import util
 
 class CreateForm(forms.Form):

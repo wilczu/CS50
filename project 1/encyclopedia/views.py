@@ -6,9 +6,14 @@ import markdown2
 from . import util
 
 class CreateForm(forms.Form):
-    title = forms.CharField(label="Title of your wiki page")
-    content = forms.CharField(label="Content of the page",
-        widget=forms.Textarea(attrs={'style' : 'height: 500px;'}))
+    title = forms.CharField(
+        label="Title of your wiki page",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    content = forms.CharField(
+        label="Content of the page",
+        widget=forms.Textarea(attrs={'class': 'form-control'})
+    )
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -56,7 +61,7 @@ def search(request):
         if util.get_entry(query):
             return redirect(f'wiki/{query}')
         else:
-            results = [e for e in entries if e.lower().startswith(query.lower())]
+            results = [e for e in util.list_entries() if e.lower().startswith(query.lower())]
 
             return render(request, "encyclopedia/search.html", {
                 "results": results

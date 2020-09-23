@@ -16,7 +16,7 @@
     <form action="{% url 'create' %}" method="POST">
       {% csrf_token %}
       {{ create_form }}
-      <input type="submit" value="Save your page">
+      <input type="submit" class="btn btn-primary" value="Save your page">
     </form>
 
 {% endblock %}

@@ -11,8 +11,8 @@
     <form action="{% url 'edit' entry=entry_title %}" method="POST">
       {% csrf_token %}
       <input type="hidden" name="entry_title" value="{{ entry_title }}">
-      <textarea name="edited_content"> {{ entry_content }} </textarea>
-      <input type="submit" value="Edit entry"">
+      <textarea name="edited_content" class="form-control" rows="8"> {{ entry_content }} </textarea>
+      <input type="submit" class="btn btn-primary" value="Edit entry">
     </form>
 
 {% endblock %}

@@ -9,22 +9,22 @@
         <link href="{% static 'encyclopedia/styles.css' %}" rel="stylesheet">
     </head>
     <body>
+      <div class="container-fluid">
         <div class="row">
-            <div class="sidebar col-lg-2 col-md-3">
-                <h2>Wiki</h2>
-                <form action="{% url 'search' %}" method="GET">
-                    {% csrf_token %}
-                    <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
-                </form>
-                <div>
-                    <a href="{% url 'index' %}">Home</a>
-                </div>
-                <div>
-                    <a href="{% url 'create' %}">Create New Page</a>
-                </div>
-                <div>
-                    <a href="{% url 'random' %}">Random Page</a>
-                </div>
+            <div class="sidebar col-lg-2 col-md-3 bg-light">
+                <h2 class="text-center">Wiki</h2>
+                <hr>
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <form action="{% url 'search' %}" method="GET">
+                        {% csrf_token %}
+                        <input class="search form-control" type="text" name="q" placeholder="Search Encyclopedia">
+                    </form>
+                  </li>
+                  <li class="list-group-item"><a href="{% url 'index' %}">Home</a></li>
+                  <li class="list-group-item"><a href="{% url 'create' %}">Create New Page</a></li>
+                  <li class="list-group-item"><a href="{% url 'random' %}">Random Page</a></li>
+                </ul>
                 {% block nav %}
                 {% endblock %}
             </div>
@@ -33,6 +33,6 @@
                 {% endblock %}
             </div>
         </div>
-
+      </div>
     </body>
 </html>

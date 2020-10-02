@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+  <h1>Create new listening:</h1>
+
+  <form action="{% url 'create_listing' %}" method="post">
+    <input type="text" name="title" placeholder="Title">
+    <textarea name="description" rows="8" cols="80" placeholder="Description"></textarea>
+    <input type="text" name="starting_bid" placeholder="starting bid">
+    <input type="text" name="image" placeholder="URL for an image">
+
+    <select name="category">
+      <option value="1">Fashion</option>
+      <option value="2">Toys</option>
+      <option value="3">Electronics</option>
+    </select>
+
+    <input type="submit" value="Submit your listening">
+  </form>
+
+{% endblock %}

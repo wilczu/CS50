@@ -2,21 +2,43 @@
 
 {% block body %}
 
-  <h1>Create new listening:</h1>
+  <div class="container">
+    <header>
+        <h1>Create new listening:</h1>
+    </header>
+    <form action="{% url 'create_listing' %}" method="post">
 
-  <form action="{% url 'create_listing' %}" method="post">
-    <input type="text" name="title" placeholder="Title">
-    <textarea name="description" rows="8" cols="80" placeholder="Description"></textarea>
-    <input type="text" name="starting_bid" placeholder="starting bid">
-    <input type="text" name="image" placeholder="URL for an image">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="title" placeholder="Title">
+      </div>
 
-    <select name="category">
-      <option value="1">Fashion</option>
-      <option value="2">Toys</option>
-      <option value="3">Electronics</option>
-    </select>
+      <div class="input-group mb-3">
+        <textarea name="description" class="form-control" rows="8" cols="80" placeholder="Description"></textarea>
+      </div>
 
-    <input type="submit" value="Submit your listening">
-  </form>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="starting_bid" placeholder="starting bid">
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" name="image" placeholder="URL for an image">
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3">
+            <select name="category" class="form-control">
+              <option value="1">Fashion</option>
+              <option value="2">Toys</option>
+              <option value="3">Electronics</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <input type="submit" class="btn btn-primary" value="Submit your listening">
+    </form>
+  </div>
 
 {% endblock %}

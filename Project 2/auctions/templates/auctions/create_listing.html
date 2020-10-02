@@ -29,9 +29,9 @@
         <div class="col">
           <div class="input-group mb-3">
             <select name="category" class="form-control">
-              <option value="1">Fashion</option>
-              <option value="2">Toys</option>
-              <option value="3">Electronics</option>
+              {% for category in categories %}
+              <option value="{{ category.id }}">{{ category.name }}</option>
+              {% endfor %}
             </select>
           </div>
         </div>

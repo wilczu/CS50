@@ -7,7 +7,7 @@
         <h1>Create new listening:</h1>
     </header>
     <form action="{% url 'create_listing' %}" method="post">
-
+      {% csrf_token %}
       <div class="input-group mb-3">
         <input type="text" class="form-control" name="title" placeholder="Title">
       </div>

@@ -20,3 +20,10 @@ class Listings(models.Model):
 
     def __str__(self):
         return f"{self.title} : {self.description} : {self.start_bid} : {self.category} : {self.image}"
+
+class UserListing(models.Model):
+    listing = models.ForeignKey(Listings, on_delete=models.CASCADE, default="none", related_name="listing")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='1', related_name="owner")
+
+    def __str__(self):
+        return f"{self.listing_ID} : {self.user}"

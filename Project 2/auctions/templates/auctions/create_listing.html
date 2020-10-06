@@ -6,8 +6,16 @@
     <header>
         <h1>Create new listening:</h1>
     </header>
+    {% if message %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+    {% endif %}
     <form action="{% url 'create_listing' %}" method="post">
       {% csrf_token %}
+
+      <input type="hidden" name="userID" value="{{ user.id }}">
+
       <div class="input-group mb-3">
         <input type="text" class="form-control" name="title" placeholder="Title">
       </div>

@@ -26,4 +26,4 @@ class UserListing(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='1', related_name="owner")
 
     def __str__(self):
-        return f"{self.listing_ID} : {self.user}"
+        return f"{self.listing.id} : {self.user.id}"

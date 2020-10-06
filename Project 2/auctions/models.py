@@ -16,7 +16,7 @@ class Listings(models.Model):
     description = models.CharField(max_length=256)
     start_bid = models.DecimalField(max_digits=10000, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default="none", related_name="category_name")
-    image = models.CharField(max_length=128, default="none")
+    image = models.CharField(max_length=128, default=None)
 
     def __str__(self):
         return f"{self.title} : {self.description} : {self.start_bid} : {self.category} : {self.image}"

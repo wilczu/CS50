@@ -68,6 +68,9 @@ def register(request):
 def create_listing(request):
     if request.method == "POST":
         title = request.POST["title"]
+        image = request.POST["image"]
+        if not image:
+            image = "none"
 
         # Saving the listing to the listings table
         new_listing = Listings.objects.create(
@@ -75,7 +78,7 @@ def create_listing(request):
             description = request.POST["description"],
             start_bid = request.POST["starting_bid"],
             category = Category.objects.get(pk=int(request.POST["category"])),
-            image = request.POST["image"]
+            image = image
         )
         new_listing.save()
 

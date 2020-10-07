@@ -8,7 +8,7 @@
     </header>
 
     {% if message %}
-      <div class="alert alert-success" role="alert">
+      <div class="alert alert-info" role="alert">
         {{ message }}
       </div>
     {% endif %}
@@ -34,9 +34,14 @@
               <form action="{% url 'watchlist' user.id %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="listing" value="{{ listing.id }}">
-                <button type="submit" name="action" value="add" class="btn btn-info">Add to watchlist</button>
+                {% if watching %}
+                  <button type="submit" name="action" value="remove" class="btn btn-danger">Remove from watchlist</button>
+                {% else %}
+                  <button type="submit" name="action" value="add" class="btn btn-info">Add to watchlist</button>
+                {% endif %}
               </form>
             {% endif %}
+
           </div>
         </div>
       </div>

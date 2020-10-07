@@ -109,8 +109,12 @@ def create_listing(request):
 
 
 def listing(request, listingID):
+    listing = Listings.objects.get(pk=int(listingID))
+    watching_now = watchlist.objects.filter(listing = listing, user = request.user)
+    # watching_now = request.user.username
     return render(request, "auctions/listing.html", {
-        "listing": Listings.objects.get(pk=int(listingID))
+        "listing": listing,
+        "watching": watching_now
     })
 
 
@@ -118,23 +122,28 @@ def watching(request, userID):
     if request.method == "POST":
 
         action = request.POST["action"]
+        product = Listings.objects.get(pk=int(request.POST["listing"]))
+        #execute when user is adding item to the watchlist
         if action == "add":
-
-            product = Listings.objects.get(pk=int(request.POST["listing"]))
-            user = User.objects.get(pk=int(userID))
-
             add = watchlist.objects.create(
                 listing = product,
-                user = user
+                user = request.user
             )
             add.save()
+
             return render(request, "auctions/listing.html", {
-                "message": "You're now watching this product!",
+                "message": "You're now watching this product",
                 "listing": Listings.objects.get(pk=int(request.POST["listing"]))
             })
-
+        #execute when user is removing item from the watchlist
         elif action == "remove":
-            return HttpResponse("Removing it from the watchlist")
+            remove_me = watchlist.objects.get(listing = product, user = request.user)
+            remove_me.delete()
+
+            return render(request, "auctions/listing.html", {
+                "message": "You have removed this product from your watchlist",
+                "listing": Listings.objects.get(pk=int(request.POST["listing"]))
+            })
 
     return render(request, "auctions/watchlist.html", {
         "watchItems": watchlist.objects.filter(user=int(userID))

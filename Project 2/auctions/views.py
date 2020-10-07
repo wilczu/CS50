@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Category, Listings, UserListing
+from .models import User, Category, Listings, UserListing, watchlist
 
 
 def index(request):
@@ -107,7 +107,14 @@ def create_listing(request):
         "categories": Category.objects.all()
     })
 
+
 def listing(request, listingID):
     return render(request, "auctions/listing.html", {
         "listing": Listings.objects.get(pk=int(listingID))
+    })
+
+
+def watching(request, userID):
+    return render(request, "auctions/watchlist.html", {
+        "watchItems": watchlist.objects.filter(user=int(userID))
     })

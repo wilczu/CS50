@@ -1,0 +1,12 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+  <h1>Items:</h1>
+
+  <ul>
+    {% for item in watchItems %}
+      <li>{{ item.listing.title }}</li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

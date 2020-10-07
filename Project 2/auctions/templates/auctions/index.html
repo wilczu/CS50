@@ -8,27 +8,29 @@
 
           <div class="col-md-4">
             <div class="card mb-3">
-              <div class="row no-gutters">
-                <div class="col-md-4">
-                  {% if listing.image != "none" %}
-                    <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
-                  {% endif %}
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ listing.title }}</h5>
-                    <p class="card-text">
-                      Price: {{ listing.start_bid }}
-                    </p>
-                    <p class="card-text">
-                      {{ listing.description }}
-                    </p>
-                    {% if listing.category != "none" %}
-                      <p class="card-text">Category: {{ listing.category }}</p>
+              <a href="{% url 'listing' listing.id %}" class="noLinkEffect">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    {% if listing.image != "none" %}
+                      <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
                     {% endif %}
                   </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ listing.title }}</h5>
+                      <p class="card-text">
+                        Price: {{ listing.start_bid }}
+                      </p>
+                      <p class="card-text">
+                        {{ listing.description }}
+                      </p>
+                      {% if listing.category != "none" %}
+                        <p class="card-text">Category: {{ listing.category }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 

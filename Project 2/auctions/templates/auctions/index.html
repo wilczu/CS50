@@ -1,36 +1,41 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+  <div class="container">
     <h2>Active Listings</h2>
+      <div class="row">
+        {% for listing in Listings %}
 
-      {% for listing in Listings %}
-
-        <div class="card mb-3" style="max-width: 540px;">
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              {% if listing.image != "none" %}
-                <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
-              {% endif %}
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">{{ listing.title }}</h5>
-                <p class="card-text">
-                  Price: {{ listing.start_bid }}
-                </p>
-                <p class="card-text">
-                  {{ listing.description }}
-                </p>
-                {% if listing.category != "none" %}
-                  <p class="card-text">Category: {{ listing.category }}</p>
-                {% endif %}
+          <div class="col-md-4">
+            <div class="card mb-3">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  {% if listing.image != "none" %}
+                    <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
+                  {% endif %}
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ listing.title }}</h5>
+                    <p class="card-text">
+                      Price: {{ listing.start_bid }}
+                    </p>
+                    <p class="card-text">
+                      {{ listing.description }}
+                    </p>
+                    {% if listing.category != "none" %}
+                      <p class="card-text">Category: {{ listing.category }}</p>
+                    {% endif %}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {% empty %}
-        <h4>No listings avaliable</h4>
-      {% endfor %}
+          {% empty %}
+          <h4>No listings avaliable</h4>
+        {% endfor %}
+      </div>
+  </div>
 
 {% endblock %}

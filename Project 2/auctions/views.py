@@ -74,17 +74,22 @@ def create_listing(request):
         if not image:
             image = "none"
         if category == '0':
-            category = ''
+            new_listing = Listings.objects.create(
+                title = title,
+                description = request.POST["description"],
+                start_bid = request.POST["starting_bid"],
+                image = image
+            )
         else:
-            category = Category.objects.get(pk=int(request.POST["category"]))
+            new_listing = Listings.objects.create(
+                title = title,
+                description = request.POST["description"],
+                start_bid = request.POST["starting_bid"],
+                category = Category.objects.get(pk=int(request.POST["category"])),
+                image = image
+            )
 
         # Saving the listing to the listings table
-        new_listing = Listings.objects.create(
-            title = title,
-            description = request.POST["description"],
-            start_bid = request.POST["starting_bid"],
-            image = image
-        )
         new_listing.save()
 
         # Saving the listing ID and the user ID to the UserListing table

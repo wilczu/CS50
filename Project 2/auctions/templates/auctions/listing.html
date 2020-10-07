@@ -1,19 +1,33 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
+  <div class="wrapper">
 
-  <h1>Listing info:</h1>
+    <header>
+      <h1>Listing info:</h1>
+    </header>
 
-  <ul>
-    <li>Title: {{ listing.title }}</li>
-    <li>Description: {{ listing.description }}</li>
-    <li>Start bid: {{ listing.start_bid }}</li>
-    {% if listing.category %}
-      <li>Category: {{ listing.category }}</li>
-    {% endif %}
-    {% if listing.image != "none" %}
-      <img src="{{ listing.image }}" alt="{{ listing.title }}">
-    {% endif %}
-  </ul>
+    <div class="card mb-2">
+      <div class="row no-gutters">
+        {% if listing.image != "none" %}
+          <div class="col-md-2">
+            <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
+          </div>
+        {% endif %}
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h3 class="card-title">Title: {{ listing.title }}</h3>
+            <p class="card-text">Description: {{ listing.description }}</p>
+            <p class="card-text">Start bid: {{ listing.start_bid }}</p>
+            {% if listing.category %}
+              <p class="card-text">Category: {{ listing.category }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 {% endblock %}

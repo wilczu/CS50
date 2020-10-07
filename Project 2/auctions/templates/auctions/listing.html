@@ -23,6 +23,13 @@
             {% if listing.category %}
               <p class="card-text">Category: {{ listing.category }}</p>
             {% endif %}
+
+            {% if user.is_authenticated %}
+              <form action="#" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-info">Add to watchlist</button>
+              </form>
+            {% endif %}
           </div>
         </div>
       </div>

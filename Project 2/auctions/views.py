@@ -99,7 +99,7 @@ def create_listing(request):
         )
         link_user.save()
 
-        return render(request, "auctions/create_listing.html", {
+        return render(request, "auctions/listing.html", {
             "message": f"{title} was added to the shop!"
         })
 

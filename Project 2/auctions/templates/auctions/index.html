@@ -10,8 +10,6 @@
             <div class="col-md-4">
               {% if listing.image != "none" %}
                 <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
-              {% else %}
-                <img src="https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png" class="card-img" alt="{{ listing.title }}">
               {% endif %}
             </div>
             <div class="col-md-8">
@@ -31,6 +29,8 @@
           </div>
         </div>
 
+        {% empty %}
+        <h4>No listings avaliable</h4>
       {% endfor %}
 
 {% endblock %}

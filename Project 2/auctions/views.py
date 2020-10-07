@@ -106,3 +106,8 @@ def create_listing(request):
     return render(request, "auctions/create_listing.html", {
         "categories": Category.objects.all()
     })
+
+def listing(request, listingID):
+    return render(request, "auctions/listing.html", {
+        "listing": Listings.objects.get(pk=int(listingID))
+    })

@@ -1,0 +1,19 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+
+  <h1>Listing info:</h1>
+
+  <ul>
+    <li>Title: {{ listing.title }}</li>
+    <li>Description: {{ listing.description }}</li>
+    <li>Start bid: {{ listing.start_bid }}</li>
+    {% if listing.category %}
+      <li>Category: {{ listing.category }}</li>
+    {% endif %}
+    {% if listing.image != "none" %}
+      <img src="{{ listing.image }}" alt="{{ listing.title }}">
+    {% endif %}
+  </ul>
+
+{% endblock %}

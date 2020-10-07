@@ -115,6 +115,27 @@ def listing(request, listingID):
 
 
 def watching(request, userID):
+    if request.method == "POST":
+
+        action = request.POST["action"]
+        if action == "add":
+
+            product = Listings.objects.get(pk=int(request.POST["listing"]))
+            user = User.objects.get(pk=int(userID))
+
+            add = watchlist.objects.create(
+                listing = product,
+                user = user
+            )
+            add.save()
+            return render(request, "auctions/listing.html", {
+                "message": "You're now watching this product!",
+                "listing": Listings.objects.get(pk=int(request.POST["listing"]))
+            })
+
+        elif action == "remove":
+            return HttpResponse("Removing it from the watchlist")
+
     return render(request, "auctions/watchlist.html", {
         "watchItems": watchlist.objects.filter(user=int(userID))
     })

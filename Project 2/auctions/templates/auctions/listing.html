@@ -7,6 +7,12 @@
       <h1>Listing info:</h1>
     </header>
 
+    {% if message %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+    {% endif %}
+
     <div class="card mb-2">
       <div class="row no-gutters">
         {% if listing.image != "none" %}
@@ -25,9 +31,10 @@
             {% endif %}
 
             {% if user.is_authenticated %}
-              <form action="#" method="post">
+              <form action="{% url 'watchlist' user.id %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-info">Add to watchlist</button>
+                <input type="hidden" name="listing" value="{{ listing.id }}">
+                <button type="submit" name="action" value="add" class="btn btn-info">Add to watchlist</button>
               </form>
             {% endif %}
           </div>

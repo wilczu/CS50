@@ -95,7 +95,7 @@ def create_listing(request):
         # Saving the listing ID and the user ID to the UserListing table
         link_user = UserListing.objects.create(
             listing = new_listing,
-            user = User.objects.get(pk=request.POST["userID"])
+            user = request.user 
         )
         link_user.save()
 

@@ -1,12 +1,20 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-  <h1>Items:</h1>
 
-  <ul>
+  <div class="container">
+    <header>
+      <h1>Items in your watchlist:</h1>
+    </header>
+
     {% for item in watchItems %}
-      <li>{{ item.listing.title }}</li>
+      <div class="card" style="margin-bottom: 10px;">
+        <div class="card-body">
+          <p class="card-text">{{ item.listing.title }}</p>
+        </div>
+      </div>
     {% endfor %}
-  </ul>
+
+  </div>
 
 {% endblock %}

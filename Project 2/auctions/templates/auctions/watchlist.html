@@ -8,11 +8,13 @@
     </header>
 
     {% for item in watchItems %}
-      <div class="card" style="margin-bottom: 10px;">
-        <div class="card-body">
-          <p class="card-text">{{ item.listing.title }}</p>
+      <a href="{% url 'listing' item.listing.id %}">
+        <div class="card" style="margin-bottom: 10px;">
+          <div class="card-body">
+            <p class="card-text">{{ item.listing.title }}</p>
+          </div>
         </div>
-      </div>
+      </a>
     {% endfor %}
 
   </div>

@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .models import User, Category, Listings, UserListing, watchlist
@@ -95,7 +95,7 @@ def create_listing(request):
         # Saving the listing ID and the user ID to the UserListing table
         link_user = UserListing.objects.create(
             listing = new_listing,
-            user = request.user 
+            user = request.user
         )
         link_user.save()
 
@@ -120,7 +120,6 @@ def listing(request, listingID):
 
 def watching(request, userID):
     if request.method == "POST":
-
         action = request.POST["action"]
         product = Listings.objects.get(pk=int(request.POST["listing"]))
         #execute when user is adding item to the watchlist
@@ -130,20 +129,13 @@ def watching(request, userID):
                 user = request.user
             )
             add.save()
+            return redirect('listing', listingID=product.id)
 
-            return render(request, "auctions/listing.html", {
-                "message": "You're now watching this product",
-                "listing": Listings.objects.get(pk=int(request.POST["listing"]))
-            })
         #execute when user is removing item from the watchlist
         elif action == "remove":
             remove_me = watchlist.objects.get(listing = product, user = request.user)
             remove_me.delete()
-
-            return render(request, "auctions/listing.html", {
-                "message": "You have removed this product from your watchlist",
-                "listing": Listings.objects.get(pk=int(request.POST["listing"]))
-            })
+            return redirect('listing', listingID=product.id)
 
     return render(request, "auctions/watchlist.html", {
         "watchItems": watchlist.objects.filter(user=int(userID))

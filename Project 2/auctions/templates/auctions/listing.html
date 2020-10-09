@@ -15,22 +15,41 @@
 
     <div class="card mb-2">
       <div class="row no-gutters">
+
         {% if listing.image != "none" %}
           <div class="col-md-2">
             <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
           </div>
         {% endif %}
+
         <div class="col-md-1"></div>
         <div class="col-md-8">
           <div class="card-body">
             <h3 class="card-title">Title: {{ listing.title }}</h3>
             <p class="card-text">Description: {{ listing.description }}</p>
-            <p class="card-text">Start bid: {{ listing.start_bid }}</p>
+            <p class="card-text">Starting bid: {{ listing.start_bid }}</p>
+
+            {% if user.is_authenticated %}
+              <form action="{% url 'bid' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="listingID" value="{{ listing.id }}">
+                <div class="row">
+                  <div class="col-md-3">
+                    <input type="number" class="form-control" name="newBid" step="0.01">
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary" name="submitBid">Place bid</button>
+                  </div>
+                </div>
+              </form>
+            {% endif %}
+
             {% if listing.category %}
               <p class="card-text">Category: {{ listing.category }}</p>
             {% endif %}
 
             {% if user.is_authenticated %}
+
               <form action="{% url 'watchlist' user.id %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="listing" value="{{ listing.id }}">
@@ -40,8 +59,8 @@
                   <button type="submit" name="action" value="add" class="btn btn-info">Add to watchlist</button>
                 {% endif %}
               </form>
-            {% endif %}
 
+            {% endif %}
           </div>
         </div>
       </div>

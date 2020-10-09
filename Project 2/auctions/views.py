@@ -108,6 +108,11 @@ def create_listing(request):
         "categories": Category.objects.all()
     })
 
+def get_highest_bid(listingID):
+    listing = Listings.objects.get(pk=int(listingID))
+    highest = bidding.objects.filter(listing=listing.id).aggregate(Max('bid'))
+
+    return round(highest['bid__max'], 2)
 
 def listing(request, listingID):
     listing = Listings.objects.get(pk=int(listingID))
@@ -118,7 +123,7 @@ def listing(request, listingID):
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "watching": watching_now # TODO: highest bid here
+        "watching": watching_now
     })
 
 

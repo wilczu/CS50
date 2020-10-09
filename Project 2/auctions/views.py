@@ -110,8 +110,11 @@ def create_listing(request):
 
 def listing(request, listingID):
     listing = Listings.objects.get(pk=int(listingID))
-    watching_now = watchlist.objects.filter(listing = listing, user = request.user)
-    # watching_now = request.user.username
+    if request.user.is_authenticated:
+        watching_now = watchlist.objects.filter(listing = listing, user = request.user)
+    else:
+        watching_now = None
+
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "watching": watching_now

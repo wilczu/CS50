@@ -3,8 +3,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.db.models import Max
 
-from .models import User, Category, Listings, UserListing, watchlist
+from .models import User, Category, Listings, UserListing, watchlist, bidding
 
 
 def index(request):
@@ -117,7 +118,7 @@ def listing(request, listingID):
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "watching": watching_now
+        "watching": watching_now # TODO: highest bid here
     })
 
 
@@ -143,3 +144,26 @@ def watching(request, userID):
     return render(request, "auctions/watchlist.html", {
         "watchItems": watchlist.objects.filter(user=int(userID))
     })
+
+
+def bid(request):
+    if request.method == "POST":
+
+        listing = Listings.objects.get(pk=int(request.POST["listingID"]))
+        user = User.objects.get(pk=int(request.user.id))
+        placed_bid = float(request.POST["newBid"])
+
+        highest_bid = bidding.objects.filter(listing=listing.id).aggregate(Max('bid'))
+
+        if placed_bid >= listing.start_bid and placed_bid > highest_bid['bid__max']:
+            save_bid = bidding.objects.create(
+                listing = listing,
+                user = user,
+                bid = placed_bid
+            )
+            save_bid.save()
+            return redirect('listing', listingID=listing.id)
+        else:
+            return HttpResponse("Your bid is too small it has to be grater than the starting bid")
+
+        pass

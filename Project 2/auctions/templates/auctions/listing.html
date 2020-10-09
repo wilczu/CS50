@@ -29,6 +29,10 @@
             <p class="card-text">Description: {{ listing.description }}</p>
             <p class="card-text">Starting bid: {{ listing.start_bid }}</p>
 
+            {% if highest_bid %}
+              <p class="card-text">Current bid: {{ highest_bid }}</p>
+            {% endif %}
+
             {% if user.is_authenticated %}
               <form action="{% url 'bid' %}" method="post">
                 {% csrf_token %}

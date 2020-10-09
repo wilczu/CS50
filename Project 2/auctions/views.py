@@ -123,7 +123,8 @@ def listing(request, listingID):
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "watching": watching_now
+        "watching": watching_now,
+        "highest_bid": get_highest_bid(listing.id)
     })
 
 

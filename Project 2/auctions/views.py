@@ -10,6 +10,7 @@ from .models import User, Category, Listings, UserListing, watchlist, bidding
 
 def index(request):
     remove_sessions(request)
+
     return render(request, "auctions/index.html", {
         "Listings": Listings.objects.all()
     })
@@ -119,8 +120,10 @@ def get_highest_bid(listingID):
     listing = Listings.objects.get(pk=int(listingID))
     highest = bidding.objects.filter(listing=listing.id).aggregate(Max('bid'))
 
-    return round(highest['bid__max'], 2)
-
+    if bidding.objects.filter(listing=listing.id).count() >0:
+        return round(highest['bid__max'], 2)
+    else:
+        return None
 
 def listing(request, listingID):
 

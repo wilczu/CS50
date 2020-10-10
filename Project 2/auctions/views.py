@@ -9,10 +9,17 @@ from .models import User, Category, Listings, UserListing, watchlist, bidding
 
 
 def index(request):
+    remove_sessions(request)
     return render(request, "auctions/index.html", {
         "Listings": Listings.objects.all()
     })
 
+
+def remove_sessions(request):
+    if 'error' in request.session:
+        del request.session['error']
+    if 'message' in request.session:
+        del request.session['message']
 
 def login_view(request):
     if request.method == "POST":
@@ -100,13 +107,13 @@ def create_listing(request):
         )
         link_user.save()
 
-        return render(request, "auctions/listing.html", {
-            "message": f"{title} was added to the shop!"
-        })
+        request.session['message'] = True
+        return redirect('create_listing')
 
     return render(request, "auctions/create_listing.html", {
         "categories": Category.objects.all()
     })
+
 
 def get_highest_bid(listingID):
     listing = Listings.objects.get(pk=int(listingID))
@@ -114,7 +121,9 @@ def get_highest_bid(listingID):
 
     return round(highest['bid__max'], 2)
 
+
 def listing(request, listingID):
+
     listing = Listings.objects.get(pk=int(listingID))
     if request.user.is_authenticated:
         watching_now = watchlist.objects.filter(listing = listing, user = request.user)
@@ -130,6 +139,7 @@ def listing(request, listingID):
 
 def watching(request, userID):
     if request.method == "POST":
+
         action = request.POST["action"]
         product = Listings.objects.get(pk=int(request.POST["listing"]))
         #execute when user is adding item to the watchlist
@@ -155,21 +165,27 @@ def watching(request, userID):
 def bid(request):
     if request.method == "POST":
 
+        if 'error' in request.session:
+            del request.session['error']
+
         listing = Listings.objects.get(pk=int(request.POST["listingID"]))
         user = User.objects.get(pk=int(request.user.id))
-        placed_bid = float(request.POST["newBid"])
+        placed_bid = round(float(request.POST["newBid"]), 2)
 
-        highest_bid = bidding.objects.filter(listing=listing.id).aggregate(Max('bid'))
+        highest_bid = get_highest_bid(listing.id)
 
-        if placed_bid >= listing.start_bid and placed_bid > highest_bid['bid__max']:
+        if placed_bid >= listing.start_bid and placed_bid > highest_bid:
             save_bid = bidding.objects.create(
                 listing = listing,
                 user = user,
                 bid = placed_bid
             )
             save_bid.save()
+
+            remove_sessions(request)
             return redirect('listing', listingID=listing.id)
         else:
-            return HttpResponse("Your bid is too small it has to be grater than the starting bid")
+            request.session['error'] = True
+            return redirect('listing', listingID=listing.id)
 
         pass

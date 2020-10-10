@@ -7,9 +7,9 @@
       <h1>Listing info:</h1>
     </header>
 
-    {% if message %}
-      <div class="alert alert-info" role="alert">
-        {{ message }}
+    {% if 'error' in request.session %}
+      <div class="alert alert-danger" role="alert">
+        Your bid is too low please reise your bid.
       </div>
     {% endif %}
 

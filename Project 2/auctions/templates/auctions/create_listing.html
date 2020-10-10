@@ -6,9 +6,9 @@
     <header>
         <h1>Create new listening:</h1>
     </header>
-    {% if message %}
+    {% if 'message' in request.session %}
       <div class="alert alert-success" role="alert">
-        {{ message }}
+        Your item has been added to the shop
       </div>
     {% endif %}
     <form action="{% url 'create_listing' %}" method="post">

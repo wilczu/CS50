@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db.models import Max
 
-from .models import User, Category, Listings, UserListing, watchlist, bidding
+from .models import User, Category, Listings, UserListing, watchlist, bidding, comments
 
 
 def index(request):
@@ -21,6 +21,8 @@ def remove_sessions(request):
         del request.session['error']
     if 'message' in request.session:
         del request.session['message']
+    if 'comment_error' in request.session:
+        del request.session['comment_error']
 
 def login_view(request):
     if request.method == "POST":
@@ -136,7 +138,8 @@ def listing(request, listingID):
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "watching": watching_now,
-        "highest_bid": get_highest_bid(listing.id)
+        "highest_bid": get_highest_bid(listing.id),
+        "comments": comments.objects.filter(listing = listing)
     })
 
 
@@ -192,3 +195,27 @@ def bid(request):
             return redirect('listing', listingID=listing.id)
 
         pass
+
+def comment(request):
+    if request.user.is_authenticated and request.method == "POST":
+        comment = request.POST['comment']
+        listing = Listings.objects.get(pk=int(request.POST['listingID']))
+        user = User.objects.get(pk=int(request.user.id))
+
+        if len(comment) >=1 and len(comment) <=512:
+            save_comment = comments.objects.create(
+                listing = listing,
+                user = user,
+                comment = comment
+            )
+            save_comment.save()
+
+            return redirect('listing', listingID=listing.id)
+        else:
+            request.session['comment_error'] = True
+            return redirect('listing', listingID=listing.id)
+
+    else:
+        return render(request, "auctions/index.html", {
+            "Listings": Listings.objects.all()
+        })

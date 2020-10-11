@@ -70,28 +70,41 @@
         <div class="col-md-4">
           <h3>Comments:</h3>
 
-          <div class="card" style="margin-bottom: 10px;">
+          {% for comment in comments %}
             <div class="card-body">
               <p class="card-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {{ comment.comment }}
               </p>
-              <p class="card-text"><small class="text-muted">Posted by: Wilchu</small></p>
+              <p class="card-text"><small class="text-muted">Posted by: {{ comment.user.username }}</small></p>
             </div>
-          </div>
+            {% empty %}
+            <p class="text-muted">No comments to display</p>
+          {% endfor %}
 
-          <form action="#" method="post">
-            {%csrf_token%}
-            <div class="row justify-content-center">
-              <div class="col-md-9">
-                <input type="text" class="form-control" name="comment" placeholder="Type your comment here">
+          {% if user.is_authenticated %}
+
+            {% if 'comment_error' in request.session %}
+              <div class="alert alert-danger" role="alert">
+                Your comment is too long or empty!
               </div>
-              <div class="col-md-3">
-                <button type="submit" class="btn btn-primary">Send your comment</button>
+            {% endif %}
+
+            <form action="{% url 'comment' %}" method="post">
+              {%csrf_token%}
+              <div class="row justify-content-center">
+                <div class="col-md-9">
+                  <input type="hidden" name="listingID" value="{{ listing.id }}">
+                  <input type="text" class="form-control" name="comment" placeholder="Type your comment here" aria-describedby="commentHint">
+                  <small id="commentHint" class="text-muted">
+                    Your comment has to be no longer than 512 characters
+                  </small>
+                </div>
+                <div class="col-md-3">
+                  <button type="submit" class="btn btn-primary">Send your comment</button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          {% endif %}
 
         </div>
       </div>

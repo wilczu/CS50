@@ -1,36 +1,24 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-  <div class="wrapper">
 
-    <header>
-      <h1>Listing info:</h1>
+  <div class="container">
+    <header style="margin-top: 20px;">
+      <h2>Title: {{ listing.title }}</h2>
     </header>
-
-    {% if 'error' in request.session %}
-      <div class="alert alert-danger" role="alert">
-        Your bid is too low please reise your bid.
-      </div>
-    {% endif %}
-
-    <div class="card mb-2">
-      <div class="row no-gutters">
-
-        {% if listing.image != "none" %}
-          <div class="col-md-2">
-            <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
-          </div>
-        {% endif %}
-
-        <div class="col-md-1"></div>
-        <div class="col-md-3">
+    <div class="row">
+      <!-- LISTING INFO -->
+      <div class="col-6">
+        <div class="card">
+          {% if listing.image != "none" %}
+            <img src="{{ listing.image }}" class="img-thumbnail" alt="{{ listing.title }}">
+          {% endif %}
           <div class="card-body">
-            <h3 class="card-title">Title: {{ listing.title }}</h3>
-            <p class="card-text">Description: {{ listing.description }}</p>
-            <p class="card-text">Starting bid: {{ listing.start_bid }}</p>
+            <p class="card-text"><b>Description:</b> {{ listing.description }}</p>
+            <p class="card-text"><b>Starting bid:</b> {{ listing.start_bid }}</p>
 
-            {% if highest_bid %}
-              <p class="card-text">Current bid: {{ highest_bid }}</p>
+            {% if listing.category %}
+              <p class="card-text"><b>Category:</b> {{ listing.category }}</p>
             {% endif %}
 
             {% if user.is_authenticated %}
@@ -38,7 +26,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="listingID" value="{{ listing.id }}">
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-6">
                     <input type="number" class="form-control" name="newBid" step="0.01">
                   </div>
                   <div class="col-md-3">
@@ -46,14 +34,7 @@
                   </div>
                 </div>
               </form>
-            {% endif %}
-
-            {% if listing.category %}
-              <p class="card-text">Category: {{ listing.category }}</p>
-            {% endif %}
-
-            {% if user.is_authenticated %}
-
+              <div style="margin-bottom: 10px;"></div>
               <form action="{% url 'watchlist' user.id %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="listing" value="{{ listing.id }}">
@@ -65,12 +46,16 @@
               </form>
 
             {% endif %}
+
           </div>
         </div>
-        <div class="col-md-4">
-          <h3>Comments:</h3>
-
-          {% for comment in comments %}
+      </div>
+      <!-- COMMENTS -->
+      <div class="col-6">
+        <header>
+          <h2>Comments:</h2>
+        </header>
+        {% for comment in comments %}
             <div class="card-body">
               <p class="card-text">
                 {{ comment.comment }}
@@ -79,9 +64,9 @@
             </div>
             {% empty %}
             <p class="text-muted">No comments to display</p>
-          {% endfor %}
+        {% endfor %}
 
-          {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
 
             {% if 'comment_error' in request.session %}
               <div class="alert alert-danger" role="alert">
@@ -104,9 +89,9 @@
                 </div>
               </div>
             </form>
-          {% endif %}
 
-        </div>
+        {% endif %}
+
       </div>
     </div>
 

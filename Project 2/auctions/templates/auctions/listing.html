@@ -23,7 +23,7 @@
         {% endif %}
 
         <div class="col-md-1"></div>
-        <div class="col-md-8">
+        <div class="col-md-3">
           <div class="card-body">
             <h3 class="card-title">Title: {{ listing.title }}</h3>
             <p class="card-text">Description: {{ listing.description }}</p>
@@ -41,7 +41,7 @@
                   <div class="col-md-3">
                     <input type="number" class="form-control" name="newBid" step="0.01">
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <button type="submit" class="btn btn-primary" name="submitBid">Place bid</button>
                   </div>
                 </div>
@@ -66,6 +66,33 @@
 
             {% endif %}
           </div>
+        </div>
+        <div class="col-md-4">
+          <h3>Comments:</h3>
+
+          <div class="card" style="margin-bottom: 10px;">
+            <div class="card-body">
+              <p class="card-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+              <p class="card-text"><small class="text-muted">Posted by: Wilchu</small></p>
+            </div>
+          </div>
+
+          <form action="#" method="post">
+            {%csrf_token%}
+            <div class="row justify-content-center">
+              <div class="col-md-9">
+                <input type="text" class="form-control" name="comment" placeholder="Type your comment here">
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Send your comment</button>
+              </div>
+            </div>
+          </form>
+
         </div>
       </div>
     </div>

@@ -1,43 +1,41 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-  <div class="container">
-    <h2>Active Listings</h2>
-      <div class="row">
-        {% for listing in Listings %}
 
-          <div class="col-md-4">
-            <div class="card mb-3">
-              <a href="{% url 'listing' listing.id %}" class="noLinkEffect">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                    {% if listing.image != "none" %}
-                      <img src="{{ listing.image }}" class="card-img" alt="{{ listing.title }}">
-                    {% endif %}
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ listing.title }}</h5>
-                      <p class="card-text">
-                        Price: {{ listing.start_bid }}
-                      </p>
-                      <p class="card-text">
-                        {{ listing.description }}
-                      </p>
-                      {% if listing.category != "none" %}
-                        <p class="card-text">Category: {{ listing.category }}</p>
-                      {% endif %}
-                    </div>
-                  </div>
+    <div class="container">
+      <header>
+        <h2>Active listings:</h2>
+      </header>
+
+      {% for listing in Listings %}
+        <a href="{% url 'listing' listing.id %}" class="noLinkEffect">
+          <div class="card" style="margin-bottom: 10px;">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  {% if listing.image != "none" %}
+                    <img src="{{ listing.image }}" class="img-thumbnail" style="width: 200px;" alt="{{ listing.title }}">
+                  {% endif %}
                 </div>
-              </a>
+                <div class="col-md-6">
+                  <b>{{ listing.title }}</b> <br />
+                  <p>{{ listing.description }}</p>
+                </div>
+                <div class="col-md-3">
+                  <b>Starting price:</b> {{ listing.start_bid }} <br />
+                  {% if listing.category != "none" %}
+                    <p class="card-text"><b>Category:</b> {{ listing.category }}</p>
+                  {% endif %}
+                </div>
+              </div>
             </div>
           </div>
+        </a>
+        {% empty %}
+        <h4>No listings avaliable</h4>
 
-          {% empty %}
-          <h4>No listings avaliable</h4>
-        {% endfor %}
-      </div>
-  </div>
+      {% endfor %}
+
+    </div>
 
 {% endblock %}

@@ -42,3 +42,8 @@ class bidding(models.Model):
 
     def __str__(self):
         return f"{self.listing.title} : {self.user.username} : {self.bid}"
+
+class comments(models.Model):
+    listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="commentedon")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author")
+    comment = models.CharField(max_length=512)

@@ -224,3 +224,12 @@ def comment(request):
         return render(request, "auctions/index.html", {
             "Listings": Listings.objects.all()
         })
+
+
+def end_listing(request, listingID):
+    owner = UserListing.objects.filter(listing = listingID, user = request.user).first()
+
+    if owner:
+        return HttpResponse(f"Ending listing with ID of: {listingID} you are the owner!")
+    else:
+        return redirect('listing', listingID=listingID)

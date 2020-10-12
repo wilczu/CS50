@@ -10,7 +10,8 @@
         </div>
         <div class="col-4 text-right">
           {% if owner %}
-          <form action="#" method="post">
+          <form action="{% url 'endListing' listing.id %}" method="post">
+            {% csrf_token %}
             <button type="submit" class="btn btn-info">End the listing</button>
           </form>
           {% endif %}

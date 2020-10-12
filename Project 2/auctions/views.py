@@ -12,7 +12,7 @@ def index(request):
     remove_sessions(request)
 
     return render(request, "auctions/index.html", {
-        "Listings": Listings.objects.all()
+        "Listings": Listings.objects.filter(active = 1).all()
     })
 
 
@@ -228,7 +228,7 @@ def comment(request):
 
 def end_listing(request, listingID):
     owner = UserListing.objects.filter(listing = listingID, user = request.user).first()
-
+    #Check if user is owning this listing again
     if owner:
         return HttpResponse(f"Ending listing with ID of: {listingID} you are the owner!")
     else:

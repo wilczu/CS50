@@ -26,7 +26,7 @@ class UserListing(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='1', related_name="owner")
 
     def __str__(self):
-        return f"{self.listing.id} : {self.user.id}"
+        return f"{self.user.id}"
 
 class watchlist(models.Model):
     listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="watched")

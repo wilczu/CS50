@@ -24,6 +24,7 @@ def remove_sessions(request):
     if 'comment_error' in request.session:
         del request.session['comment_error']
 
+
 def login_view(request):
     if request.method == "POST":
 
@@ -127,11 +128,13 @@ def get_highest_bid(listingID):
     else:
         return None
 
+
 def listing(request, listingID):
 
     listing = Listings.objects.get(pk=int(listingID))
     if request.user.is_authenticated:
         watching_now = watchlist.objects.filter(listing = listing, user = request.user)
+        owner = UserListing.objects.filter(listing = listing, user = request.user).first()
     else:
         watching_now = None
 
@@ -139,7 +142,8 @@ def listing(request, listingID):
         "listing": listing,
         "watching": watching_now,
         "highest_bid": get_highest_bid(listing.id),
-        "comments": comments.objects.filter(listing = listing)
+        "comments": comments.objects.filter(listing = listing),
+        "owner": owner
     })
 
 
@@ -195,6 +199,7 @@ def bid(request):
             return redirect('listing', listingID=listing.id)
 
         pass
+
 
 def comment(request):
     if request.user.is_authenticated and request.method == "POST":

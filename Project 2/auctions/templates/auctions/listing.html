@@ -4,7 +4,16 @@
 
   <div class="container">
     <header style="margin-top: 20px;">
-      <h2>Title: {{ listing.title }}</h2>
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <h2>Title: {{ listing.title }}</h2>
+        </div>
+        <div class="col-4 text-right">
+          <form action="#" method="post">
+            <button type="submit" class="btn btn-info">End the listing</button>
+          </form>
+        </div>
+      </div>
     </header>
     <div class="row">
       <!-- LISTING INFO -->

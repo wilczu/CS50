@@ -236,3 +236,9 @@ def end_listing(request, listingID):
         listing.save()
 
     return redirect('listing', listingID=listingID)
+
+
+def categories(request):
+    return render(request, "auctions/categories.html", {
+        "categories": Category.objects.all()
+    })

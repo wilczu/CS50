@@ -121,10 +121,10 @@ def create_listing(request):
 
 def get_highest_bid(listingID):
     listing = Listings.objects.get(pk=int(listingID))
-    highest = bidding.objects.filter(listing=listing.id).aggregate(Max('bid'))
+    highest = bidding.objects.filter(listing=listing.id).last()
 
     if bidding.objects.filter(listing=listing.id).count() >0:
-        return round(highest['bid__max'], 2)
+        return {'user':highest.user.username, 'bid':highest.bid}
     else:
         return None
 
@@ -141,9 +141,10 @@ def listing(request, listingID):
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "watching": watching_now,
-        "highest_bid": get_highest_bid(listing.id),
+        "highest_bid": get_highest_bid(listing.id)['bid'],
         "comments": comments.objects.filter(listing = listing),
-        "owner": owner
+        "owner": owner,
+        "winner": get_highest_bid(listing.id)['user']
     })
 
 
@@ -182,7 +183,7 @@ def bid(request):
         user = User.objects.get(pk=int(request.user.id))
         placed_bid = round(float(request.POST["newBid"]), 2)
 
-        highest_bid = get_highest_bid(listing.id)
+        highest_bid = get_highest_bid(listing.id)['bid']
 
         if placed_bid >= listing.start_bid and placed_bid > highest_bid:
             save_bid = bidding.objects.create(
@@ -230,6 +231,8 @@ def end_listing(request, listingID):
     owner = UserListing.objects.filter(listing = listingID, user = request.user).first()
     #Check if user is owning this listing again
     if owner:
-        return HttpResponse(f"Ending listing with ID of: {listingID} you are the owner!")
-    else:
-        return redirect('listing', listingID=listingID)
+        listing = Listings.objects.get(pk=int(listingID))
+        listing.active = 0
+        listing.save()
+
+    return redirect('listing', listingID=listingID)

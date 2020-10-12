@@ -9,7 +9,7 @@
           <h2>Title: {{ listing.title }}</h2>
         </div>
         <div class="col-4 text-right">
-          {% if owner %}
+          {% if owner and listing.active == 1 %}
           <form action="{% url 'endListing' listing.id %}" method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-info">End the listing</button>
@@ -18,6 +18,16 @@
         </div>
       </div>
     </header>
+
+    {% if listing.active == 0 %}
+      <div class="alert alert-warning" role="alert">
+        Listing is closed.
+        {% if winner == user.username %}
+          <b>Congratulations!</b> You have won this auction!
+        {% endif %}
+      </div>
+    {% endif %}
+
     <div class="row">
       <!-- LISTING INFO -->
       <div class="col-6">
@@ -28,24 +38,26 @@
           <div class="card-body">
             <p class="card-text"><b>Description:</b> {{ listing.description }}</p>
             <p class="card-text"><b>Starting bid:</b> {{ listing.start_bid }}</p>
-
+            <p class="card-text"><b>Current bid:</b> {{ highest_bid }}</p>
             {% if listing.category %}
               <p class="card-text"><b>Category:</b> {{ listing.category }}</p>
             {% endif %}
 
             {% if user.is_authenticated %}
-              <form action="{% url 'bid' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="listingID" value="{{ listing.id }}">
-                <div class="row">
-                  <div class="col-md-6">
-                    <input type="number" class="form-control" name="newBid" step="0.01">
+              {% if listing.active == 1 %}
+                <form action="{% url 'bid' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="listingID" value="{{ listing.id }}">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input type="number" class="form-control" name="newBid" step="0.01">
+                    </div>
+                    <div class="col-md-3">
+                      <button type="submit" class="btn btn-primary" name="submitBid">Place bid</button>
+                    </div>
                   </div>
-                  <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary" name="submitBid">Place bid</button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              {% endif %}
               <div style="margin-bottom: 10px;"></div>
               <form action="{% url 'watchlist' user.id %}" method="post">
                 {% csrf_token %}
@@ -78,7 +90,7 @@
             <p class="text-muted">No comments to display</p>
         {% endfor %}
 
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and listing.active == 1 %}
 
             {% if 'comment_error' in request.session %}
               <div class="alert alert-danger" role="alert">

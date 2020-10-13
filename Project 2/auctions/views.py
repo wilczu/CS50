@@ -120,11 +120,19 @@ def create_listing(request):
 def get_highest_bid(listingID):
     listing = Listings.objects.get(pk=int(listingID))
     highest = bidding.objects.filter(listing=listing.id).last()
-
+    #Return highest bid of there is one
     if bidding.objects.filter(listing=listing.id).count() >0:
         return {'user':highest.user.username, 'bid':highest.bid}
     else:
         return {'user': None, 'bid': '-- --'}
+
+
+def isNumeric(data):
+    try:
+        int(data)
+        return True
+    except ValueError:
+        return False
 
 
 def listing(request, listingID):
@@ -174,12 +182,14 @@ def watching(request, userID):
 def bid(request):
     if request.method == "POST":
 
-        if 'error' in request.session:
-            del request.session['error']
-
         listing = Listings.objects.get(pk=int(request.POST["listingID"]))
         user = User.objects.get(pk=int(request.user.id))
-        placed_bid = round(float(request.POST["newBid"]), 2)
+
+        if isNumeric(request.POST["newBid"]):
+            placed_bid = round(float(request.POST["newBid"]), 2)
+        else:
+            request.session['error'] = True
+            return redirect('listing', listingID=listing.id)
 
         highest_bid = get_highest_bid(listing.id)['bid']
 
@@ -192,12 +202,10 @@ def bid(request):
             save_bid.save()
 
             remove_sessions(request)
-            return redirect('listing', listingID=listing.id)
         else:
             request.session['error'] = True
-            return redirect('listing', listingID=listing.id)
 
-        pass
+        return redirect('listing', listingID=listing.id)
 
 
 def comment(request):

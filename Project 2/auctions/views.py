@@ -126,7 +126,7 @@ def get_highest_bid(listingID):
     if bidding.objects.filter(listing=listing.id).count() >0:
         return {'user':highest.user.username, 'bid':highest.bid}
     else:
-        return None
+        return {'user': None, 'bid': '-- --'}
 
 
 def listing(request, listingID):

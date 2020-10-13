@@ -83,8 +83,6 @@ def create_listing(request):
         image = request.POST["image"]
         category = request.POST["category"]
 
-        if not image:
-            image = "none"
         if category == '0':
             new_listing = Listings.objects.create(
                 title = title,

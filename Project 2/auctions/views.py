@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db.models import Max
 
-from .models import User, Category, Listings, UserListing, watchlist, bidding, comments
+from .models import *
 
 
 def index(request):
@@ -241,4 +241,12 @@ def end_listing(request, listingID):
 def categories(request):
     return render(request, "auctions/categories.html", {
         "categories": Category.objects.all()
+    })
+
+
+def category(request, categoryID):
+    getCategory = Category.objects.get(pk=int(categoryID))
+    return render(request, "auctions/category.html", {
+        "Category": getCategory.name,
+        "Listings": Listings.objects.filter(active = 1, category = getCategory).all()
     })

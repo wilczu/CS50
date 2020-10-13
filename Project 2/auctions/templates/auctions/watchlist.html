@@ -9,7 +9,7 @@
 
     {% for item in watchItems %}
       <a href="{% url 'listing' item.listing.id %}">
-        <div class="card" style="margin-bottom: 10px;">
+        <div class="card">
           <div class="card-body">
             <p class="card-text">{{ item.listing.title }}</p>
           </div>

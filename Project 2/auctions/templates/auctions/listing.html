@@ -19,6 +19,12 @@
       </div>
     </header>
 
+    {% if 'error' in request.session %}
+      <div class="alert alert-danger" role="alert">
+        Your bid is too low please reise your bid.
+      </div>
+    {% endif %}
+
     {% if listing.active == 0 %}
       <div class="alert alert-warning" role="alert">
         Listing is closed.

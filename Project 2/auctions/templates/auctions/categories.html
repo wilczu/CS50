@@ -8,7 +8,7 @@
     </header>
 
     {% for category in categories %}
-      <a href="#">
+      <a href="{% url 'category' category.id %}">
         <div class="card">
           <div class="card-body">
             {{ category }}

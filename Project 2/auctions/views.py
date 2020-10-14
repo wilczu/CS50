@@ -124,16 +124,7 @@ def get_highest_bid(listingID):
     if bidding.objects.filter(listing=listing.id).count() >0:
         return {'user':highest.user.username, 'bid':highest.bid}
     else:
-        return {'user': None, 'bid': '-- --'}
-
-
-def isNumeric(data):
-    try:
-        int(data)
-        return True
-    except ValueError:
-        return False
-
+        return {'user': None, 'bid': '00.00'}
 
 def listing(request, listingID):
 
@@ -185,15 +176,12 @@ def bid(request):
         listing = Listings.objects.get(pk=int(request.POST["listingID"]))
         user = User.objects.get(pk=int(request.user.id))
 
-        if isNumeric(request.POST["newBid"]):
-            placed_bid = round(float(request.POST["newBid"]), 2)
-        else:
-            request.session['error'] = True
-            return redirect('listing', listingID=listing.id)
+        placed_bid = round(float(request.POST["newBid"]), 2)
 
+        placed_bid = round(float(request.POST["newBid"]), 2)
         highest_bid = get_highest_bid(listing.id)['bid']
 
-        if placed_bid >= listing.start_bid and placed_bid > highest_bid:
+        if placed_bid >= float(listing.start_bid) and placed_bid > float(highest_bid):
             save_bid = bidding.objects.create(
                 listing = listing,
                 user = user,
@@ -206,7 +194,6 @@ def bid(request):
             request.session['error'] = True
 
         return redirect('listing', listingID=listing.id)
-
 
 def comment(request):
     if request.user.is_authenticated and request.method == "POST":

@@ -134,6 +134,7 @@ def listing(request, listingID):
         owner = UserListing.objects.filter(listing = listing, user = request.user).first()
     else:
         watching_now = None
+        owner = None
 
     return render(request, "auctions/listing.html", {
         "listing": listing,

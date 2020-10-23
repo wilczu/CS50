@@ -121,7 +121,7 @@ def get_highest_bid(listingID):
     listing = Listings.objects.get(pk=int(listingID))
     highest = bidding.objects.filter(listing=listing.id).last()
     #Return highest bid of there is one
-    if bidding.objects.filter(listing=listing.id).count() >0:
+    if bidding.objects.filter(listing=listing.id).count() > 0:
         return {'user':highest.user.username, 'bid':highest.bid}
     else:
         return {'user': None, 'bid': '00.00'}

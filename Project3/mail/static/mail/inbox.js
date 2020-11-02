@@ -20,6 +20,28 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+
+  //Sending email when button is pressed
+    document.querySelector('#send-email').onclick = () => {
+      const recipients = document.querySelector('#compose-recipients').value;
+      const subject = document.querySelector('#compose-subject').value;
+      const body = document.querySelector('#compose-body').value;
+
+        fetch('/emails', {
+            method: 'POST',
+            body: JSON.stringify({
+                recipients: recipients,
+                subject: subject,
+                body: body
+            })
+        })
+        .then(response => response.json()).then(result => {
+            console.log(result);
+        });
+
+        return false;
+    }
+
 }
 
 function load_mailbox(mailbox) {

@@ -35,9 +35,17 @@ function compose_email() {
                 body: body
             })
         })
-        .then(response => response.json()).then(result => {
-            console.log(result);
-        });
+        .then(response => {
+          if(response.status == 201) { 
+            return response.json()
+          } else {
+            throw Error(response.statusText);
+          }
+        }).then(result => {
+          console.log("Mail has been sent!");
+          console.log(result);
+          load_mailbox('sent');
+        })
 
         return false;
     }

@@ -42,7 +42,6 @@ function compose_email() {
             throw Error(response.statusText);
           }
         }).then(result => {
-          console.log("Mail has been sent!");
           console.log(result);
           load_mailbox('sent');
         })

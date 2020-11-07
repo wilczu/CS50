@@ -51,6 +51,20 @@ function compose_email() {
 
 }
 
+function add_mail(content, status) {
+  //Create new email div element
+  const email = document.createElement('div');
+  email.className = 'mail-compotent';
+  email.innerHTML = content;
+  if (status) {
+    email.setAttribute("style", "background-color: gray;");
+  } else {
+    email.setAttribute("style", "background-color: white;");
+  }
+  //Adding this email to DOM
+  document.querySelector('#emails-view').append(email);
+}
+
 function load_mailbox(mailbox) {
   
   // Show the mailbox and hide other views
@@ -59,4 +73,23 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  
+  //Talking to the API to get data to display
+
+  fetch(`emails/${mailbox}`)
+  .then(response => response.json())
+  .then(emails => {
+     console.log(emails)
+     //Printing everything on the page     
+     for (let i = 0; i < emails.length; i++) {
+        add_mail(
+          `<b>From:</b> ${emails[i]['sender']} 
+          <br> <b>Subject:</b> ${emails[i]['subject']} 
+          <br> <b>Timestamp:</b> ${emails[i]['timestamp']}
+          `, emails[i]['read']
+        );
+     }
+  });
+
+
 }

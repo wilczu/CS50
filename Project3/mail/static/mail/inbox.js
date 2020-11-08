@@ -14,6 +14,7 @@ function compose_email() {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#single-email-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
@@ -51,16 +52,25 @@ function compose_email() {
 
 }
 
-function add_mail(content, status) {
+function display_email(mailID) {
+  console.log(`Mail with ID of ${mailID} has been pressed!`);
+}
+
+function add_mail(content, status, mailID) {
   //Create new email div element
   const email = document.createElement('div');
   email.className = 'mail-compotent';
   email.innerHTML = content;
+  //Change background of mail element
   if (status) {
     email.setAttribute("style", "background-color: gray;");
   } else {
     email.setAttribute("style", "background-color: white;");
   }
+  //Event listener to handle pressing on the email box
+  email.addEventListener('click', () => {
+    display_email(mailID);
+  });
   //Adding this email to DOM
   document.querySelector('#emails-view').append(email);
 }
@@ -70,6 +80,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#single-email-view').style.display = 'none';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -86,7 +97,7 @@ function load_mailbox(mailbox) {
           `<b>From:</b> ${emails[i]['sender']} 
           <br> <b>Subject:</b> ${emails[i]['subject']} 
           <br> <b>Timestamp:</b> ${emails[i]['timestamp']}
-          `, emails[i]['read']
+          `, emails[i]['read'], emails[i]['id']
         );
      }
   });

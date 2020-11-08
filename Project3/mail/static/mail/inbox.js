@@ -53,7 +53,33 @@ function compose_email() {
 }
 
 function display_email(mailID) {
-  console.log(`Mail with ID of ${mailID} has been pressed!`);
+  //Show simgle email views and hide other elements
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#single-email-view').style.display = 'block';
+
+  //Getting all information about this email and displaying them
+
+  fetch(`emails/${mailID}`)
+  .then(response => response.json())
+  .then(email => {
+    console.log(email);
+    document.querySelector('#single-email-view').innerHTML = `<b>Sender:</b> ${email['sender']} 
+    <br> <b>Subject:</b> ${email['subject']} 
+    <br> <b>Recipients:</b> ${email['recipients'].toString()}
+    <br> <b>Body:</b> ${email['body']}
+    <br> <b>Timestamp:</b> ${email['timestamp']}
+    `;
+  });
+  
+  //Changing the status of read to true for this mail
+  
+  fetch(`/emails/${mailID}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+        read: true
+    })
+  })
 }
 
 function add_mail(content, status, mailID) {

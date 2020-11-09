@@ -107,7 +107,7 @@ function add_mail(content, status, mailID) {
 
   //Change background of mail element
   if (status) {
-    email.setAttribute("style", "background-color: gray;");
+    email.setAttribute("style", "background-color: #212121;");
   } else {
     email.setAttribute("style", "background-color: white;");
   }

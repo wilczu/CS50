@@ -71,6 +71,19 @@ function display_email(mailID) {
   row_controls.className = 'col-md-4';
   row_div.append(row_controls);
 
+  //Generating archive button
+
+  const archive_button = document.createElement('button');
+  archive_button.className = 'btn btn-outline-info btn-block';
+  archive_button.textContent = 'Archive it';
+  row_controls.append(archive_button);
+
+  //Add click checking event for archive button
+
+  archive_button.addEventListener('click', () => {
+    archive_mail(mailID);
+  });
+
   //Getting all information about this email and displaying them
 
   fetch(`emails/${mailID}`)
@@ -94,6 +107,10 @@ function display_email(mailID) {
         read: true
     })
   })
+}
+
+function archive_mail(mailID) {
+  console.log(`Archive mail with ID of ${mailID}`);
 }
 
 function add_mail(content, status, mailID) {

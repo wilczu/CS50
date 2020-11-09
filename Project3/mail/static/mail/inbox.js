@@ -58,8 +58,10 @@ function display_email(mailID) {
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#single-email-view').style.display = 'block';
 
+  //Reseting content
+  document.querySelector('#single-email-view').innerHTML = '';
+  
   //generate bootstrap grid
-
   const row_div = document.createElement('div');
   row_div.className = 'row';
 

@@ -78,12 +78,6 @@ function display_email(mailID) {
   const archive_button = document.createElement('button');
   row_controls.append(archive_button);
 
-  //Add click checking event for archive button
-
-  archive_button.addEventListener('click', () => {
-    archive_mail(mailID);
-  });
-
   //Getting all information about this email and displaying them
 
   fetch(`emails/${mailID}`)
@@ -97,14 +91,24 @@ function display_email(mailID) {
     <br> <b>Timestamp:</b> ${email['timestamp']}
     `;
 
-    //Check if email is archived and display appropriate button
+    //Check if email is archived and change content of a button
 
     if (email['archived']) {
       archive_button.className = 'btn btn-outline-light btn-block';
       archive_button.textContent = 'Unarchive it';
+
+      archive_button.addEventListener('click', () => {
+        archive_mail(mailID, false);
+      });
+
     } else {
       archive_button.className = 'btn btn-outline-info btn-block';
       archive_button.textContent = 'Archive it';
+
+      archive_button.addEventListener('click', () => {
+        archive_mail(mailID, true);
+      });
+
     }
 
     document.querySelector('#single-email-view').append(row_div);
@@ -120,14 +124,14 @@ function display_email(mailID) {
   })
 }
 
-function archive_mail(mailID) {
+function archive_mail(mailID, action) {
   fetch(`/emails/${mailID}`, {
     method: 'PUT',
     body: JSON.stringify({
-        archived: true
+        archived: action
     })
   })
-  console.log(`Archive mail with ID of ${mailID}`);
+  load_mailbox('inbox');
 }
 
 function add_mail(content, status, mailID) {

@@ -130,8 +130,7 @@ function archive_mail(mailID, action) {
     body: JSON.stringify({
         archived: action
     })
-  })
-  load_mailbox('inbox');
+  }).then(() => load_mailbox('inbox'));
 }
 
 function add_mail(content, status, mailID) {

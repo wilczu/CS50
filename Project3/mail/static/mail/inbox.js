@@ -110,6 +110,12 @@ function display_email(mailID) {
 }
 
 function archive_mail(mailID) {
+  fetch(`/emails/${mailID}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+        archived: true
+    })
+  })
   console.log(`Archive mail with ID of ${mailID}`);
 }
 

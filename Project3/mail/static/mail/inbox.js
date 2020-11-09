@@ -82,28 +82,11 @@ function display_email(mailID) {
   })
 }
 
-function archive_email(mailID) {
-  console.log(`Archive email with id of ${mailID}`);
-}
-
 function add_mail(content, status, mailID) {
   //Create new email div element
   const email = document.createElement('div');
   email.className = 'mail-compotent';
   email.innerHTML = content;
-
-  //Create archive button
-  
-  const archive_button = document.createElement('button');
-  archive_button.className = 'btn btn-info';
-  archive_button.textContent = 'Archive it';
-  email.append(archive_button);
-
-  //Event listener to handle perssing the archive button
-
-  archive_button.addEventListener('click', () => {
-    archive_email(mailID);
-  });
 
   //Change background of mail element
   if (status) {

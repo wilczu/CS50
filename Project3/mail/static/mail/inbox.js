@@ -58,20 +58,34 @@ function display_email(mailID) {
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#single-email-view').style.display = 'block';
 
+  //generate bootstrap grid
+
+  const row_div = document.createElement('div');
+  row_div.className = 'row';
+
+  const row_content = document.createElement('div');
+  row_content.className = 'col-md-8';
+  row_div.append(row_content);
+
+  const row_controls = document.createElement('div');
+  row_controls.className = 'col-md-4';
+  row_div.append(row_controls);
+
   //Getting all information about this email and displaying them
 
   fetch(`emails/${mailID}`)
   .then(response => response.json())
   .then(email => {
     console.log(email);
-    document.querySelector('#single-email-view').innerHTML = `<b>Sender:</b> ${email['sender']} 
+    row_content.innerHTML = `<b>Sender:</b> ${email['sender']} 
     <br> <b>Subject:</b> ${email['subject']} 
     <br> <b>Recipients:</b> ${email['recipients'].toString()}
     <br> <b>Body:</b> ${email['body']}
     <br> <b>Timestamp:</b> ${email['timestamp']}
     `;
+    document.querySelector('#single-email-view').append(row_div);
   });
-  
+
   //Changing the status of read to true for this mail
   
   fetch(`/emails/${mailID}`, {

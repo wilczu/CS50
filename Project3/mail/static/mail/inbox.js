@@ -60,7 +60,7 @@ function display_email(mailID) {
 
   //Reseting content
   document.querySelector('#single-email-view').innerHTML = '';
-  
+
   //generate bootstrap grid
   const row_div = document.createElement('div');
   row_div.className = 'row';
@@ -76,8 +76,6 @@ function display_email(mailID) {
   //Generating archive button
 
   const archive_button = document.createElement('button');
-  archive_button.className = 'btn btn-outline-info btn-block';
-  archive_button.textContent = 'Archive it';
   row_controls.append(archive_button);
 
   //Add click checking event for archive button
@@ -98,6 +96,17 @@ function display_email(mailID) {
     <br> <b>Body:</b> ${email['body']}
     <br> <b>Timestamp:</b> ${email['timestamp']}
     `;
+
+    //Check if email is archived and display appropriate button
+
+    if (email['archived']) {
+      archive_button.className = 'btn btn-outline-light btn-block';
+      archive_button.textContent = 'Unarchive it';
+    } else {
+      archive_button.className = 'btn btn-outline-info btn-block';
+      archive_button.textContent = 'Archive it';
+    }
+
     document.querySelector('#single-email-view').append(row_div);
   });
 

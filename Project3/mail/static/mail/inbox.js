@@ -119,6 +119,10 @@ function display_email(mailID, mailbox) {
     reply_button.textContent = 'Reply to this email';
     row_controls.append(reply_button);
 
+    reply_button.addEventListener('click', ()=> {
+      reply_email(email);
+    });
+
     document.querySelector('#single-email-view').append(row_div);
   });
 
@@ -130,6 +134,10 @@ function display_email(mailID, mailbox) {
         read: true
     })
   })
+}
+
+function reply_email(email) {
+  return true;
 }
 
 function archive_mail(mailID, action) {

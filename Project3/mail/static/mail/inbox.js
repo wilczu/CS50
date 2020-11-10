@@ -137,7 +137,20 @@ function display_email(mailID, mailbox) {
 }
 
 function reply_email(email) {
-  return true;
+  compose_email();
+
+  //Detecting 'Re:' in email and adding it if not found
+  let subject = email['subject'];
+  if(email['subject'].substring(0,3) != 'Re:') {
+    subject = 'Re: ' + email['subject'];
+  }
+
+  const formatted_body = `\n\n\n\tOn ${email['timestamp']} ${email['sender']} wrote:\n\t${email['body']}`;
+
+  //Prepopulating input forms from the compose view
+  document.querySelector('#compose-body').value = formatted_body;
+  document.querySelector('#compose-recipients').value = email['sender'];
+  document.querySelector('#compose-subject').value = subject;
 }
 
 function archive_mail(mailID, action) {

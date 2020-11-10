@@ -113,6 +113,12 @@ function display_email(mailID, mailbox) {
       }
     }
 
+    //Generating reply button
+    const reply_button = document.createElement('button');
+    reply_button.className = 'btn btn-outline-success btn-block';
+    reply_button.textContent = 'Reply to this email';
+    row_controls.append(reply_button);
+
     document.querySelector('#single-email-view').append(row_div);
   });
 

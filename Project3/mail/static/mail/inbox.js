@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   load_mailbox('inbox');
 });
 
-function compose_email() {
+function compose_email() { 
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
@@ -52,7 +52,7 @@ function compose_email() {
 
 }
 
-function display_email(mailID) {
+function display_email(mailID, mailbox) {
   //Show simgle email views and hide other elements
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
@@ -73,17 +73,12 @@ function display_email(mailID) {
   row_controls.className = 'col-md-4';
   row_div.append(row_controls);
 
-  //Generating archive button
-
-  const archive_button = document.createElement('button');
-  row_controls.append(archive_button);
-
   //Getting all information about this email and displaying them
 
   fetch(`emails/${mailID}`)
   .then(response => response.json())
   .then(email => {
-    console.log(email);
+    console.log(email); //DEBUG
     row_content.innerHTML = `<b>Sender:</b> ${email['sender']} 
     <br> <b>Subject:</b> ${email['subject']} 
     <br> <b>Recipients:</b> ${email['recipients'].toString()}
@@ -91,24 +86,31 @@ function display_email(mailID) {
     <br> <b>Timestamp:</b> ${email['timestamp']}
     `;
 
-    //Check if email is archived and change content of a button
+    //Generating button only when the mailbox is not equal to sent view
+    if(mailbox != 'sent') {
+      //Generating archive button
 
-    if (email['archived']) {
-      archive_button.className = 'btn btn-outline-light btn-block';
-      archive_button.textContent = 'Unarchive it';
+      const archive_button = document.createElement('button');
+      row_controls.append(archive_button);
 
-      archive_button.addEventListener('click', () => {
-        archive_mail(mailID, false);
-      });
+      //Check if email is archived and change content of a button
+      if (email['archived']) {
+        archive_button.className = 'btn btn-outline-light btn-block';
+        archive_button.textContent = 'Unarchive it';
 
-    } else {
-      archive_button.className = 'btn btn-outline-info btn-block';
-      archive_button.textContent = 'Archive it';
+        archive_button.addEventListener('click', () => {
+          archive_mail(mailID, false);
+        });
 
-      archive_button.addEventListener('click', () => {
-        archive_mail(mailID, true);
-      });
+      } else {
+        archive_button.className = 'btn btn-outline-info btn-block';
+        archive_button.textContent = 'Archive it';
 
+        archive_button.addEventListener('click', () => {
+          archive_mail(mailID, true);
+        });
+
+      }
     }
 
     document.querySelector('#single-email-view').append(row_div);
@@ -133,7 +135,7 @@ function archive_mail(mailID, action) {
   }).then(() => load_mailbox('inbox'));
 }
 
-function add_mail(content, status, mailID) {
+function add_mail(content, status, mailID, mailbox) {
   //Create new email div element
   const email = document.createElement('div');
   email.className = 'mail-compotent';
@@ -147,7 +149,7 @@ function add_mail(content, status, mailID) {
   }
   //Event listener to handle pressing on the email box
   email.addEventListener('click', () => {
-    display_email(mailID);
+    display_email(mailID, mailbox);
   });
   //Adding this email to DOM
   document.querySelector('#emails-view').append(email);
@@ -175,7 +177,7 @@ function load_mailbox(mailbox) {
           `<b>From:</b> ${emails[i]['sender']} 
           <br> <b>Subject:</b> ${emails[i]['subject']} 
           <br> <b>Timestamp:</b> ${emails[i]['timestamp']} <br>
-          `, emails[i]['read'], emails[i]['id']
+          `, emails[i]['read'], emails[i]['id'], mailbox
         );
      }
   });

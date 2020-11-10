@@ -83,8 +83,10 @@ function display_email(mailID, mailbox) {
     <h1> <b>Subject:</b> ${email['subject']}</h1> 
     <br> <b>Sender:</b> ${email['sender']} 
     <br> <b>Recipients:</b> ${email['recipients'].toString()}
-    <br> <b>Body:</b> ${email['body']}
-    <br> <b>Timestamp:</b> ${email['timestamp']}
+    <div class="alert alert-primary" role="alert">
+      <b>Body:</b> <pre>${email['body']}</pre>
+    </div>
+    <b>Timestamp:</b> ${email['timestamp']}
     `;
 
     //Generating button only when the mailbox is not equal to sent view

@@ -10,6 +10,10 @@ hr {
     border: 1px solid white;
 }
 
+b {
+    color: #17a2b8 !important;
+}
+
 .mail-compotent {
     border: 2px solid #007bff;
     margin-bottom: 20px;

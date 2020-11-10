@@ -79,8 +79,9 @@ function display_email(mailID, mailbox) {
   .then(response => response.json())
   .then(email => {
     console.log(email); //DEBUG
-    row_content.innerHTML = `<b>Sender:</b> ${email['sender']} 
-    <br> <b>Subject:</b> ${email['subject']} 
+    row_content.innerHTML = `
+    <h1> <b>Subject:</b> ${email['subject']}</h1> 
+    <br> <b>Sender:</b> ${email['sender']} 
     <br> <b>Recipients:</b> ${email['recipients'].toString()}
     <br> <b>Body:</b> ${email['body']}
     <br> <b>Timestamp:</b> ${email['timestamp']}

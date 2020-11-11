@@ -10,8 +10,13 @@ hr {
     border: 1px solid white;
 }
 
-b {
+b, .read > b {
     color: #17a2b8 !important;
+}
+
+.read {
+    background-color: #fff;
+    color: #000;
 }
 
 .mail-compotent {

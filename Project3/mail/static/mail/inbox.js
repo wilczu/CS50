@@ -174,7 +174,7 @@ function add_mail(content, status, mailID, mailbox) {
   if (status) {
     email.setAttribute("style", "background-color: #212121;");
   } else {
-    email.setAttribute("style", "background-color: white;");
+    email.classList.add('read');
   }
   //Event listener to handle pressing on the email box
   email.addEventListener('click', () => {

@@ -204,10 +204,18 @@ function load_mailbox(mailbox) {
      //Printing everything on the page     
      for (let i = 0; i < emails.length; i++) {
         add_mail(
-          `<b>From:</b> ${emails[i]['sender']} 
-          <br> <b>Subject:</b> ${emails[i]['subject']} 
-          <br> <b>Timestamp:</b> ${emails[i]['timestamp']} <br>
-          `, emails[i]['read'], emails[i]['id'], mailbox
+          `<div class="row">
+            <div class="col-md-4">
+              <b>From:</b> ${emails[i]['sender']} 
+            </div>
+            <div class="col-md-4">
+              <b>Subject:</b> ${emails[i]['subject']} 
+            </div>
+            <div class="col-md-4">
+              <b>Date:</b> ${emails[i]['timestamp']} 
+            </div>
+          </div>`, 
+          emails[i]['read'], emails[i]['id'], mailbox
         );
      }
   });

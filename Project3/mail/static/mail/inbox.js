@@ -78,7 +78,6 @@ function display_email(mailID, mailbox) {
   fetch(`emails/${mailID}`)
   .then(response => response.json())
   .then(email => {
-    console.log(email); //DEBUG
     row_content.innerHTML = `
     <h1> <b>Subject:</b> ${email['subject']}</h1> 
     <br> <b>Sender:</b> ${email['sender']} 
@@ -200,7 +199,6 @@ function load_mailbox(mailbox) {
   fetch(`emails/${mailbox}`)
   .then(response => response.json())
   .then(emails => {
-     console.log(emails)
      //Printing everything on the page     
      for (let i = 0; i < emails.length; i++) {
         add_mail(

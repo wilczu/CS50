@@ -80,8 +80,8 @@ function display_email(mailID, mailbox) {
   .then(email => {
     row_content.innerHTML = `
     <h1> <b>Subject:</b> ${email['subject']}</h1> 
-    <br> <b>Sender:</b> ${email['sender']} 
-    <br> <b>Recipients:</b> ${email['recipients'].toString()}
+    <br> <b>Sender:</b> ${email['sender']}
+    <br> <b>Recipients:</b> ${email['recipients'].toString()} <br><br>
     <div class="alert alert-primary" role="alert">
       <b>Body:</b> <pre>${email['body']}</pre>
     </div>

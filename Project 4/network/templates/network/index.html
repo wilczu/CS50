@@ -22,6 +22,10 @@
                 </div>
                 <div class="card-footer text-muted">
                   <p>Added on: {{ post.post_date }} | By: {{ post.post_owner }}</p>
+                  <button type="button" class="btn btn-primary">
+                    &hearts; Likes <span class="badge badge-light">{{ post.post_likes }}</span>
+                    <span class="sr-only">Likes</span>
+                  </button>
                 </div>
               </div>
             {% endfor %}

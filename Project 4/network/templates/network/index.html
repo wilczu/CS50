@@ -12,4 +12,20 @@
             </form>
         </div> 
     </section>
+
+    <section>
+        <div class="container">
+            {% for post in all_posts %}
+            <div class="card">
+                <div class="card-body">
+                  <p class="card-text">{{ post.post_content }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                  <p>Added on: {{ post.post_date }} | By: {{ post.post_owner }}</p>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+    </section>
+
 {% endblock %}

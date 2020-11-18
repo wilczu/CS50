@@ -3,11 +3,19 @@
 {% block body %}
     <section>
         <div class="jumbotron">
+
+           {% if message %}
+              <div class="alert alert-danger" role="alert">
+                  <p>{{ message }}</p>
+              </div>
+           {% endif %}
+
             <header>
                 <h3>New post</h3>
             </header>
-            <form action="#">
-                <textarea name="post" class="form-control" rows="4"></textarea>
+            <form action="{% url 'index' %}" method="POST">
+                {% csrf_token %}
+                <textarea class="form-control" name="post_content" rows="4"></textarea>
                 <input type="submit" class="btn btn-primary" style="margin-top: 10px;" value="submit">
             </form>
         </div> 
@@ -15,6 +23,7 @@
 
     <section>
         <div class="container">
+             
             {% for post in all_posts %}
             <div class="card">
                 <div class="card-body">

@@ -8,6 +8,25 @@ from .models import User, Posts
 
 
 def index(request):
+    if request.method == "POST":
+        content = request.POST['post_content']
+        #Check if correct lenght
+        if len(content) >= 1 and len(content) <= 2000:
+            #Adding post to the database
+            add_post = Posts.objects.create(
+                post_owner = request.user,
+                post_content = content
+            )
+            add_post.save()
+
+            #Redirecting user to the main page after adding the post
+            return HttpResponseRedirect(reverse('index'))
+        else:
+            return render(request, 'network/index.html', {
+                "all_posts": Posts.objects.all(),
+                "message": 'Your post has to have content and be no longer than 2000 characters'
+            })
+
     return render(request, "network/index.html", {
         "all_posts": Posts.objects.all()
     })

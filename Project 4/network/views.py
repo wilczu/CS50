@@ -23,12 +23,12 @@ def index(request):
             return HttpResponseRedirect(reverse('index'))
         else:
             return render(request, 'network/index.html', {
-                "all_posts": Posts.objects.all(),
+                "all_posts": Posts.objects.all().order_by('-post_date'),
                 "message": 'Your post has to have content and be no longer than 2000 characters'
             })
 
     return render(request, "network/index.html", {
-        "all_posts": Posts.objects.filter().all()
+        "all_posts": Posts.objects.all().order_by('-post_date')
     })
 
 

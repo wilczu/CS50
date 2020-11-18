@@ -28,7 +28,7 @@ def index(request):
             })
 
     return render(request, "network/index.html", {
-        "all_posts": Posts.objects.all()
+        "all_posts": Posts.objects.filter().all()
     })
 
 

@@ -5,4 +5,9 @@
 
 .card {
     margin-top: 20px;
+    border: none;
+}
+
+.card-header, hr {
+    background-color: #54a8f7;
 }

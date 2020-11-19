@@ -4,7 +4,7 @@
 
     {% if user.is_authenticated %}
       <section>
-          <div class="jumbotron">
+          <div class="jumbotron bg-dark text-white">
 
             {% if message %}
                 <div class="alert alert-danger" role="alert">
@@ -28,7 +28,7 @@
         <div class="container">
              
             {% for post in all_posts %}
-            <div class="card">
+            <div class="card bg-dark text-white">
                 <div class="card-body">
                   <p class="card-text">{{ post.post_content }}</p>
                 </div>

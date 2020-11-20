@@ -13,19 +13,21 @@
                           <div class="text-center">
                             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" width="200px;"class="img-thumbnail" alt="Icon of a user">  
                           
-                            <h3 class="card-title">Wilchu</h3>
+                            <h3 class="card-title">{{ user_nickname }}</h3>
                           </div>
 
-                          <button type="button" class="btn btn-outline-info btn-block">Follow</button>
+                          {% if user_nickname != user.username %}
+                            <button type="button" class="btn btn-outline-info btn-block">Follow</button>
+                          {% endif %}
                           
                           <hr>
-                          <p class="card-text">Followers: 20</p>
+                          <p class="card-text">Followers: {{ user_followers }}</p>
                           <hr>
-                          <p class="card-text">Following: 20</p>
+                          <p class="card-text">Following: {{ user_following }}</p>
                           <hr>
-                          <p class="card-text">Date joined: </p>
+                          <p class="card-text">Date joined: {{ user_joined }}</p>
                           <hr>
-                          <p class="card-text">Last seen: </p>
+                          <p class="card-text">Last seen: {{ user_seen }}</p>
                           <hr>
                           
                         </div>

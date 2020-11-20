@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -85,4 +86,20 @@ def register(request):
 
 
 def profil(request, userID):
-    return render(request, 'network/profil.html')
+    #Check if this user exists                                                          DONE
+    #Get the data about this user
+    #Generate website with this user
+    #Get all posts made by this user
+    #Check if this user is himself then do not display follow or unfollow button
+    try:
+        get_user = User.objects.get(pk=int(userID))
+    except ObjectDoesNotExist:
+        return HttpResponse("User not found!")
+
+    return render(request, 'network/profil.html', {
+        'user_nickname': get_user.username,
+        'user_followers': get_user.followers,
+        'user_following': get_user.following,
+        'user_joined': get_user.date_joined,
+        'user_seen': get_user.last_login
+    })

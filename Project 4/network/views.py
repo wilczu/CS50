@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -89,7 +89,7 @@ def profil(request, userID):
     try:
         get_user = User.objects.get(pk=int(userID))
     except ObjectDoesNotExist:
-        return HttpResponse("User not found!")
+        return HttpResponseNotFound('<h1>User not found</h1>')
 
     return render(request, 'network/profil.html', {
         'user_nickname': get_user.username,

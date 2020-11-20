@@ -86,11 +86,6 @@ def register(request):
 
 
 def profil(request, userID):
-    #Check if this user exists                                                          DONE
-    #Get the data about this user                                                       DONE
-    #Generate website with this user                                                    DONE
-    #Get all posts made by this user
-    #Check if this user is himself then do not display follow or unfollow button        DONE
     try:
         get_user = User.objects.get(pk=int(userID))
     except ObjectDoesNotExist:
@@ -102,5 +97,5 @@ def profil(request, userID):
         'user_following': get_user.following,
         'user_joined': get_user.date_joined,
         'user_seen': get_user.last_login,
-        'user_posts': Posts.objects.all().filter(post_owner = get_user)
+        'user_posts': Posts.objects.all().filter(post_owner = get_user).order_by('-post_date')
     })

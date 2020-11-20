@@ -12,6 +12,6 @@ body {
     border: none;
 }
 
-.card-header, hr {
-    background-color: #54a8f7;
+.card-header, hr, .bg-blue {
+    background-color: #54a8f7 !important;
 }

@@ -37,7 +37,22 @@
                     <div class="card text-white bg-dark mb-3">
                         <div class="card-header">Posts:</div>
                         <div class="card-body">
-                           Display all posts
+                           {% for post in user_posts %}
+
+                              <div class="card bg-blue text-white">
+                                <div class="card-body">
+                                  <p class="card-text">{{ post.post_content }}</p>
+                                </div>
+                                <div class="card-footer">
+                                  <p>Added on: {{ post.post_date }} | By: {{ post.post_owner }}</p>
+                                  <button type="button" class="btn btn-primary">
+                                    &hearts; Likes <span class="badge badge-light">{{ post.post_likes }}</span>
+                                    <span class="sr-only">Likes</span>
+                                  </button>
+                                </div>
+                              </div>
+
+                           {% endfor %}
                         </div>
                       </div>
                 </div>

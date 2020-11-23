@@ -17,7 +17,16 @@
                           </div>
 
                           {% if user_nickname != user.username %}
-                            <button type="button" class="btn btn-outline-info btn-block">Follow</button>
+                            <form action="{% url 'profil' user_id %}" method="POST">
+                              {% csrf_token %}
+
+                              {% if follow_status == False %}
+                                <button type="submit" name="action" value="follow" class="btn btn-outline-info btn-block">Follow</button>
+                              {% else %}
+                                <button type="submit" name="action" value="unfollow" class="btn btn-outline-info btn-block">Unfollow</button>
+                              {% endif %}
+
+                            </form> 
                           {% endif %}
                           
                           <hr>

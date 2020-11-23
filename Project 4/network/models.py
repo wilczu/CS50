@@ -18,8 +18,8 @@ class Posts(models.Model):
 
 
 class Follows(models.Model):
-    target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='who_follows')
-    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='is_followed')
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='who_follows')
+    target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='is_followed')
 
     def __str__(self):
         return f"{self.target} : {self.follower}"

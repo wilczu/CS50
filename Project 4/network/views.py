@@ -2,10 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User, Posts
+from .models import User, Posts, Follows
 
 
 def index(request):
@@ -90,12 +90,40 @@ def profil(request, userID):
         get_user = User.objects.get(pk=int(userID))
     except ObjectDoesNotExist:
         return HttpResponseNotFound('<h1>User not found</h1>')
+    
+    follower = User.objects.get(pk=int(request.user.id))
+    follow_object = Follows.objects.filter(follower = follower).filter(target = get_user)
+
+    if follow_object:
+        is_following = True
+    else:
+        is_following = False
+
+    if request.method == "POST":
+        action = request.POST['action']
+        #Check if this user is already following the target
+        if action == 'follow' and is_following == False:
+            #Add follower and target to the follows table
+            follow_user = Follows.objects.create(
+                follower = follower,
+                target = get_user
+            )     
+            follow_user.save()
+            return redirect('profil', userID)
+        elif action == 'unfollow' and is_following == True:
+            #Removing follower and target users from the table
+            follow_object.delete()
+            return redirect('profil', userID)
+        else:
+            return redirect('profil', userID)
 
     return render(request, 'network/profil.html', {
+        'user_id': get_user.id,
         'user_nickname': get_user.username,
         'user_followers': get_user.followers,
         'user_following': get_user.following,
         'user_joined': get_user.date_joined,
         'user_seen': get_user.last_login,
-        'user_posts': Posts.objects.all().filter(post_owner = get_user).order_by('-post_date')
+        'user_posts': Posts.objects.all().filter(post_owner = get_user).order_by('-post_date'),
+        "follow_status": is_following 
     })

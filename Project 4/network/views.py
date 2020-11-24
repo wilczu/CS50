@@ -127,3 +127,7 @@ def profil(request, userID):
         'user_posts': Posts.objects.all().filter(post_owner = get_user).order_by('-post_date'),
         "follow_status": is_following 
     })
+
+
+def following(request):
+    return render(request, 'network/following.html')

@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.db.models import F
 
 from .models import User, Posts, Follows
 
@@ -109,10 +110,19 @@ def profil(request, userID):
                 target = get_user
             )     
             follow_user.save()
+            #Increment the number of following (user)
+            User.objects.filter(pk=int(request.user.id)).update(following=F("following") +1)
+            #Increment the number of followers (target)
+            User.objects.filter(pk=int(userID)).update(followers=F("followers") +1)
+
             return redirect('profil', userID)
         elif action == 'unfollow' and is_following == True:
             #Removing follower and target users from the table
             follow_object.delete()
+            #Remove one from following (user)
+            User.objects.filter(pk=int(request.user.id)).update(following=F("following") -1)
+            #Remove one from followers (target)
+            User.objects.filter(pk=int(userID)).update(followers=F("followers") -1)
             return redirect('profil', userID)
         else:
             return redirect('profil', userID)
@@ -130,4 +140,8 @@ def profil(request, userID):
 
 
 def following(request):
-    return render(request, 'network/following.html')
+    if request.user.is_authenticated:
+        following_people = Follows.objects.filter
+        return render(request, 'network/following.html')
+    else:
+        return redirect('index')

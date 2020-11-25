@@ -11,7 +11,7 @@
               <p class="card-text">{{ post.post_content }}</p>
             </div>
             <div class="card-footer text-muted">
-              <p>Added on: {{ post.post_date }} | By: {{ post.post_owner }}</p>
+              <p>Added on: {{ post.post_date }} | By: <a href="{% url 'profil' post.post_owner.id %}">{{ post.post_owner }}</a></p>
               <button type="button" class="btn btn-primary">
                 &hearts; Likes <span class="badge badge-light">{{ post.post_likes }}</span>
                 <span class="sr-only">Likes</span>

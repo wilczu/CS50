@@ -141,7 +141,9 @@ def profil(request, userID):
 
 def following(request):
     if request.user.is_authenticated:
-        following_people = Follows.objects.filter
-        return render(request, 'network/following.html')
+        followed_people = Follows.objects.filter(follower=request.user).values('target')
+        return render(request, 'network/following.html', {
+            "followers_posts": Posts.objects.filter(post_owner__in = followed_people) 
+        })
     else:
         return redirect('index')

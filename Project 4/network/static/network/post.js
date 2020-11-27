@@ -36,4 +36,33 @@ function genEditing(button) {
     saveButton.innerText = 'Save';
     parentElement.append(saveButton);
 
+    //TRIGGERING EDITPOST FUNCTION WHEN BUTTON PRESSED
+
+    saveButton.onclick = () => {
+        //SETTING APPEARING OF ELEMENTS
+        textarea.style.display = 'none';
+        saveButton.style.display = 'none';
+        contentElement.style.display = 'block';
+        contentElement.style.display = 'block';
+        button.style.display = 'block';
+
+        if (editPost(textarea.value, button.dataset.postid)) {
+            //Updating was succesfull
+            contentElement.innerText = textarea.value;
+        } else {
+            //Error :c
+            contentElement.style.color = 'red';
+            contentElement.innerText = 'There is a problem with your request, please try again later';
+        }
+
+    }
+
+}
+
+function editPost(content, postID) {
+    //All info to update this post
+    console.log('New content for this post is: ' + content);
+    console.log(postID);
+    //Return true or false from API
+    return true;
 }

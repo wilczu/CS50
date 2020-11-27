@@ -46,23 +46,28 @@ function genEditing(button) {
         contentElement.style.display = 'block';
         button.style.display = 'block';
 
-        if (editPost(textarea.value, button.dataset.postid)) {
-            //Updating was succesfull
-            contentElement.innerText = textarea.value;
-        } else {
-            //Error :c
-            contentElement.style.color = 'red';
-            contentElement.innerText = 'There is a problem with your request, please try again later';
-        }
+        let post_content = textarea.value;
+        let post_id = button.dataset.postid;
+
+        fetch('/post', {
+            method: 'PUT',
+            body: JSON.stringify({post_content, post_id})
+        }).then(response => {
+            if (response.status == 201) {
+                //Updating was succesfull
+                contentElement.innerText = textarea.value;
+            } 
+            return response.json();
+        }).then(result => {
+            if (typeof result['error'] !== 'undefined') {
+                contentElement.style.color = 'red';
+                contentElement.innerText = result['error'];
+            } else {
+                console.log('Message: ' + result['message']);
+            }
+        })
 
     }
 
 }
 
-function editPost(content, postID) {
-    //All info to update this post
-    console.log('New content for this post is: ' + content);
-    console.log(postID);
-    //Return true or false from API
-    return true;
-}

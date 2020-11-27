@@ -1,7 +1,10 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db.models import F
@@ -147,3 +150,31 @@ def following(request):
         })
     else:
         return redirect('index')
+
+
+@csrf_exempt
+def post(request):
+    if request.method != 'PUT':
+        return JsonResponse({
+            "error": "PUT request is required"
+        }, status = 400)
+
+    #Getting edited post data
+    post_request = json.loads(request.body)
+    post_id = post_request.get("post_id", "")
+    updated_content = post_request.get("post_content", "")
+
+    #Try to get post information
+    try:
+        get_post = Posts.objects.get(pk=int(post_id))
+    except ObjectDoesNotExist:
+        return JsonResponse({"error": "post not found!"}, status = 400)
+
+    if request.user == get_post.post_owner:
+        if len(updated_content) >= 1 and len(updated_content) <= 2000:
+            Posts.objects.filter(pk=int(post_id)).update(post_content = updated_content)
+            return JsonResponse({"message": "post was updated!"}, status = 201)
+        else:
+            return JsonResponse({"error": "Your post is too short or too long"}, status = 400)
+    else:
+        return JsonResponse({"error": "You can edit only your posts!"}, status = 400)

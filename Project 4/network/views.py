@@ -154,10 +154,15 @@ def following(request):
 
 @csrf_exempt
 def post(request):
+    #Check if the request method is correct
     if request.method != 'PUT':
         return JsonResponse({
             "error": "PUT request is required"
         }, status = 400)
+
+    #Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('login')
 
     #Getting edited post data
     post_request = json.loads(request.body)
@@ -169,7 +174,7 @@ def post(request):
         get_post = Posts.objects.get(pk=int(post_id))
     except ObjectDoesNotExist:
         return JsonResponse({"error": "post not found!"}, status = 400)
-
+    
     if request.user == get_post.post_owner:
         if len(updated_content) >= 1 and len(updated_content) <= 2000:
             Posts.objects.filter(pk=int(post_id)).update(post_content = updated_content)

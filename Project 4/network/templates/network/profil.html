@@ -51,6 +51,9 @@
                               <div class="card bg-blue text-white">
                                 <div class="card-body">
                                   <p class="card-text">{{ post.post_content }}</p>
+                                    {% if user_nickname == user.username %}
+                                      <button type="button" data-postid="{{ post.id }}" class="btn btn-light btn-edit">Edit</button>
+                                    {% endif %}
                                 </div>
                                 <div class="card-footer">
                                   <p>Added on: {{ post.post_date }} | By: {{ post.post_owner }}</p>
@@ -62,6 +65,7 @@
                               </div>
                               {% empty %}
                               <h4>No posts to display yet.</h4>
+
                            {% endfor %}
                         </div>
                       </div>

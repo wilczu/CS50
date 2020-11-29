@@ -1,6 +1,7 @@
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator, EmptyPage
 from django.http import JsonResponse
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
@@ -10,9 +11,19 @@ from django.urls import reverse
 from django.db.models import F
 
 from .models import User, Posts, Follows
-
+    
 
 def index(request):
+    #Using Paginator class
+
+    all_posts = Posts.objects.all().order_by('-post_date')
+    paginator = Paginator(all_posts, 10)
+
+    try:
+        page = paginator.page(request.GET.get('page', 1))
+    except EmptyPage:
+        page = paginator.page(1)
+
     if request.method == "POST":
         content = request.POST['post_content']
         #Check if correct lenght
@@ -28,12 +39,12 @@ def index(request):
             return HttpResponseRedirect(reverse('index'))
         else:
             return render(request, 'network/index.html', {
-                "all_posts": Posts.objects.all().order_by('-post_date'),
+                "all_posts": page,
                 "message": 'Your post has to have content and be no longer than 2000 characters'
             })
 
     return render(request, "network/index.html", {
-        "all_posts": Posts.objects.all().order_by('-post_date')
+        "all_posts": page
     })
 
 

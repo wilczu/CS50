@@ -49,15 +49,23 @@
     <section style="margin-top: 20px;">
       <nav aria-label="Posts pagination">
         <ul class="pagination justify-content-center pagination-lg">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&larr;</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">&rarr;</a>
-          </li>
+          {% if all_posts.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="{% url 'index' %}?page={{ all_posts.previous_page_number }}">Previous</a>
+            </li>
+          {% endif %}
+
+          {% for page in all_posts.paginator.page_range %}
+            <li class="page-item {% if page == all_posts.number %} active {% endif %}">
+              <a class="page-link" href="{% url 'index' %}?page={{ page }}">{{ page }}</a>
+            </li>
+          {% endfor %}
+
+          {% if all_posts.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="{% url 'index' %}?page={{ all_posts.next_page_number }}">Next</a>
+            </li>
+          {% endif %}
         </ul>
       </nav>
     </section>

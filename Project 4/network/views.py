@@ -143,7 +143,11 @@ def profil(request, userID):
             return redirect('profil', userID)
         else:
             return redirect('profil', userID)
-    
+
+    #Using Paginator class
+    all_posts = Posts.objects.all().filter(post_owner = get_user).order_by('-post_date')
+    page = pagination(request, all_posts, 2)
+
     return render(request, 'network/profil.html', {
         'user_id': get_user.id,
         'user_nickname': get_user.username,
@@ -151,7 +155,7 @@ def profil(request, userID):
         'user_following': get_user.following,
         'user_joined': get_user.date_joined,
         'user_seen': get_user.last_login,
-        'user_posts': Posts.objects.all().filter(post_owner = get_user).order_by('-post_date'),
+        'user_posts': page,
         "follow_status": is_following 
     })
 

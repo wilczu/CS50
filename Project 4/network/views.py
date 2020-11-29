@@ -12,17 +12,20 @@ from django.db.models import F
 
 from .models import User, Posts, Follows
     
+def pagination(request, data_object, results):
+    paginator = Paginator(data_object, results)
+
+    try:
+        paginator_result = paginator.page(request.GET.get('page', 1))
+    except EmptyPage:
+        paginator_result = paginator.page(1)
+
+    return paginator_result
 
 def index(request):
     #Using Paginator class
-
     all_posts = Posts.objects.all().order_by('-post_date')
-    paginator = Paginator(all_posts, 10)
-
-    try:
-        page = paginator.page(request.GET.get('page', 1))
-    except EmptyPage:
-        page = paginator.page(1)
+    page = pagination(request, all_posts, 10)
 
     if request.method == "POST":
         content = request.POST['post_content']
@@ -140,7 +143,7 @@ def profil(request, userID):
             return redirect('profil', userID)
         else:
             return redirect('profil', userID)
-
+    
     return render(request, 'network/profil.html', {
         'user_id': get_user.id,
         'user_nickname': get_user.username,

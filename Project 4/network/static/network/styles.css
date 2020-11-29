@@ -16,3 +16,9 @@ body {
 .card-header, hr, .bg-blue {
     background-color: #54a8f7 !important;
 }
+
+.page-link {
+    color: #fff;
+    background-color: #323232;
+    border-color: #121212;
+}

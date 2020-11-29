@@ -162,11 +162,11 @@ def profil(request, userID):
 
 def following(request):
     if request.user.is_authenticated:
-
+        
         followed_people = Follows.objects.filter(follower=request.user).values('target')
         #Using Paginator class
         all_posts = Posts.objects.filter(post_owner__in = followed_people) 
-        page = pagination(request, all_posts, 2)
+        page = pagination(request, all_posts, 10)
 
         return render(request, 'network/following.html', {
             "followers_posts": page

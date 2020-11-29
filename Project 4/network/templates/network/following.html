@@ -22,6 +22,30 @@
             <h2>No activity to display</h2>
         {% endfor %}
 
+        <section style="margin-top: 20px;">
+          <nav aria-label="Posts pagination">
+            <ul class="pagination justify-content-center pagination-lg">
+              {% if followers_posts.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="{% url 'following' %}?page={{ followers_posts.previous_page_number }}">Previous</a>
+                </li>
+              {% endif %}
+        
+              {% for page in followers_posts.paginator.page_range %}
+                <li class="page-item {% if page == followers_posts.number %} active {% endif %}">
+                  <a class="page-link" href="{% url 'following' %}?page={{ page }}">{{ page }}</a>
+                </li>
+              {% endfor %}
+        
+              {% if followers_posts.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="{% url 'following' %}?page={{ followers_posts.next_page_number }}">Next</a>
+                </li>
+              {% endif %}
+            </ul>
+          </nav>
+        </section>
+
     </div>
 </section>
 

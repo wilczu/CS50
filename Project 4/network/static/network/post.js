@@ -4,10 +4,13 @@ document.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll('button').forEach(button => {
 
         let editButton = button.className == 'btn btn-light btn-edit';
+        let likeButton = button.className == 'btn btn-primary like';
 
         button.onclick = () => {
             if (editButton) {
                 genEditing(button);
+            } else if (likeButton) {
+                like();
             }
         }
     });
@@ -65,9 +68,12 @@ function genEditing(button) {
             } else {
                 console.log('Message: ' + result['message']);
             }
-        })
+        });
 
     }
 
 }
 
+function like() {
+    console.log('Like this post');
+}

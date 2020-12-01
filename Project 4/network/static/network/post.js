@@ -54,7 +54,7 @@ function genEditing(button) {
 
         fetch('/post', {
             method: 'PUT',
-            body: JSON.stringify({post_content, post_id})
+            body: JSON.stringify({ post_content, post_id, action: 'edit' })
         }).then(response => {
             if (response.status == 201) {
                 //Updating was succesfull
@@ -75,5 +75,22 @@ function genEditing(button) {
 }
 
 function like() {
-    console.log('Like this post');
+    console.log('Like button pressed!'); //DEBUG
+    fetch('/post', {
+        method: 'PUT',
+        body: JSON.stringify({action: 'like' })
+    }).then(response => {
+        if (response.status == 201) {
+            console.log('Post liked!'); //DEBUG
+        }
+        return response.json();
+    }).then(result => {
+        if(typeof result['error'] == 'undefined') {
+            //Everything went fine, post liked!
+            console.log('Everything is okay!');
+            console.log('Message: ' + result['message']);
+        } else {
+            console.log('Error: ' + result['error']);
+        }
+    });
 }

@@ -189,20 +189,33 @@ def post(request):
 
     #Getting edited post data
     post_request = json.loads(request.body)
-    post_id = post_request.get("post_id", "")
-    updated_content = post_request.get("post_content", "")
 
-    #Try to get post information
-    try:
-        get_post = Posts.objects.get(pk=int(post_id))
-    except ObjectDoesNotExist:
-        return JsonResponse({"error": "post not found!"}, status = 400)
-    
-    if request.user == get_post.post_owner:
-        if len(updated_content) >= 1 and len(updated_content) <= 2000:
-            Posts.objects.filter(pk=int(post_id)).update(post_content = updated_content)
-            return JsonResponse({"message": "post was updated!"}, status = 201)
+    action = post_request.get("action", "")
+
+    #execute when editing the post
+    if action == 'edit':
+
+        post_id = post_request.get("post_id", "")
+        updated_content = post_request.get("post_content", "")
+
+        #Try to get post information
+        try:
+            get_post = Posts.objects.get(pk=int(post_id))
+        except ObjectDoesNotExist:
+            return JsonResponse({"error": "post not found!"}, status = 400)
+        
+        if request.user == get_post.post_owner:
+            if len(updated_content) >= 1 and len(updated_content) <= 2000:
+                Posts.objects.filter(pk=int(post_id)).update(post_content = updated_content)
+                return JsonResponse({"message": "post was updated!"}, status = 201)
+            else:
+                return JsonResponse({"error": "Your post is too short or too long"}, status = 400)
         else:
-            return JsonResponse({"error": "Your post is too short or too long"}, status = 400)
+            return JsonResponse({"error": "You can edit only your posts!"}, status = 400)
+
+    #execute when linking the post      
+    elif action == 'like':
+        return JsonResponse({"message": 'like it now'})   
+
     else:
-        return JsonResponse({"error": "You can edit only your posts!"}, status = 400)
+        return JsonResponse({"error": 'Incorrect action!'}, status = 400)

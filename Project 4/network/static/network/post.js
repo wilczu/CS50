@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if (editButton) {
                 genEditing(button);
             } else if (likeButton) {
-                like(likeButton);
+                like(button);
             }
         }
     });
@@ -74,10 +74,10 @@ function genEditing(button) {
 
 }
 
-function like(likeButton) {
+function like(button) {
     console.log('Like button pressed!'); //DEBUG
 
-    let post_id = likeButton.dataset.postid;
+    let post_id = button.dataset.postid;
 
     fetch('/post', {
         method: 'PUT',

@@ -191,18 +191,18 @@ def post(request):
     post_request = json.loads(request.body)
 
     action = post_request.get("action", "")
+    post_id = post_request.get("post_id", "")
+
+    #Try to get post information (And checking it it is existing)
+    try:
+        get_post = Posts.objects.get(pk=int(post_id))
+    except ObjectDoesNotExist:
+        return JsonResponse({"error": "post not found!"}, status = 400)
 
     #execute when editing the post
     if action == 'edit':
-
-        post_id = post_request.get("post_id", "")
+        #Get updated post message
         updated_content = post_request.get("post_content", "")
-
-        #Try to get post information
-        try:
-            get_post = Posts.objects.get(pk=int(post_id))
-        except ObjectDoesNotExist:
-            return JsonResponse({"error": "post not found!"}, status = 400)
         
         if request.user == get_post.post_owner:
             if len(updated_content) >= 1 and len(updated_content) <= 2000:
@@ -213,9 +213,9 @@ def post(request):
         else:
             return JsonResponse({"error": "You can edit only your posts!"}, status = 400)
 
-    #execute when linking the post      
+    #execute when liking the post      
     elif action == 'like':
-        return JsonResponse({"message": 'like it now'})   
-
+        #Check if user is already liking this post
+        return JsonResponse({"message": 'like saved!'}, 201)   
     else:
         return JsonResponse({"error": 'Incorrect action!'}, status = 400)

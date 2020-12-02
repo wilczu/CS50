@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
             if (editButton) {
                 genEditing(button);
             } else if (likeButton) {
-                like();
+                like(likeButton);
             }
         }
     });
@@ -56,7 +56,7 @@ function genEditing(button) {
             method: 'PUT',
             body: JSON.stringify({ post_content, post_id, action: 'edit' })
         }).then(response => {
-            if (response.status == 201) {
+            if (response.status == 200) {
                 //Updating was succesfull
                 contentElement.innerText = textarea.value;
             } 
@@ -74,13 +74,16 @@ function genEditing(button) {
 
 }
 
-function like() {
+function like(likeButton) {
     console.log('Like button pressed!'); //DEBUG
+
+    let post_id = likeButton.dataset.postid;
+
     fetch('/post', {
         method: 'PUT',
-        body: JSON.stringify({action: 'like' })
+        body: JSON.stringify({post_id, action: 'like' })
     }).then(response => {
-        if (response.status == 201) {
+        if (response.status == 200) {
             console.log('Post liked!'); //DEBUG
         }
         return response.json();

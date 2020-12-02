@@ -207,7 +207,7 @@ def post(request):
         if request.user == get_post.post_owner:
             if len(updated_content) >= 1 and len(updated_content) <= 2000:
                 Posts.objects.filter(pk=int(post_id)).update(post_content = updated_content)
-                return JsonResponse({"message": "post was updated!"}, status = 201)
+                return JsonResponse({"message": "post was updated!"}, status = 200)
             else:
                 return JsonResponse({"error": "Your post is too short or too long"}, status = 400)
         else:
@@ -216,6 +216,6 @@ def post(request):
     #execute when liking the post      
     elif action == 'like':
         #Check if user is already liking this post
-        return JsonResponse({"message": 'like saved!'}, 201)   
+        return JsonResponse({"message": 'like saved!'}, 200)   
     else:
         return JsonResponse({"error": 'Incorrect action!'}, status = 400)

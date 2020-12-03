@@ -14,7 +14,7 @@ class Posts(models.Model):
     post_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.post_owner} {self.post_content} {self.post_date}"
+        return f"{self.id} : {self.post_owner}"
 
 
 class Follows(models.Model):
@@ -23,3 +23,11 @@ class Follows(models.Model):
 
     def __str__(self):
         return f"{self.target}"
+
+
+class Likes(models.Model):
+    who_liked = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.who_liked}"

@@ -216,6 +216,6 @@ def post(request):
     #execute when liking the post      
     elif action == 'like':
         #Check if user is already liking this post
-        return JsonResponse({"message": 'like saved!'}, 200)   
+        return JsonResponse({"message": 'like saved!'}, status = 200)   
     else:
         return JsonResponse({"error": 'Incorrect action!'}, status = 400)

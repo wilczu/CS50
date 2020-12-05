@@ -10,7 +10,6 @@ class User(AbstractUser):
 class Posts(models.Model):
     post_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post_owner")
     post_content = models.CharField(max_length=2000)
-    post_likes = models.IntegerField(default=0)
     post_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

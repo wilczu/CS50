@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db.models import F
 
-from .models import User, Posts, Follows
+from .models import User, Posts, Follows, Likes
     
 def pagination(request, data_object, results):
     paginator = Paginator(data_object, results)
@@ -21,6 +21,16 @@ def pagination(request, data_object, results):
         paginator_result = paginator.page(1)
 
     return paginator_result
+
+def getAllLikes(request):
+    if request.user.is_authenticated:
+        all_likes = []
+        likes = Likes.objects.all().filter(who_liked = request.user)
+        for like in likes:
+            all_likes.append(like.post.id)
+        return all_likes
+    else:
+        return []
 
 def index(request):
     #Using Paginator class
@@ -43,11 +53,13 @@ def index(request):
         else:
             return render(request, 'network/index.html', {
                 "all_posts": page,
+                "all_likes": getAllLikes(request),
                 "message": 'Your post has to have content and be no longer than 2000 characters'
             })
 
     return render(request, "network/index.html", {
-        "all_posts": page
+        "all_posts": page,
+        "all_likes": getAllLikes(request)
     })
 
 

@@ -22,6 +22,7 @@ def pagination(request, data_object, results):
 
     return paginator_result
 
+
 def getAllLikes(request):
     if request.user.is_authenticated:
         all_likes = []
@@ -31,6 +32,7 @@ def getAllLikes(request):
         return all_likes
     else:
         return []
+
 
 def index(request):
     #Using Paginator class
@@ -53,7 +55,7 @@ def index(request):
         else:
             return render(request, 'network/index.html', {
                 "all_posts": page,
-                "all_likes": getAllLikes(request),
+                "user_likes": getAllLikes(request),
                 "message": 'Your post has to have content and be no longer than 2000 characters'
             })
 
@@ -168,7 +170,8 @@ def profil(request, userID):
         'user_joined': get_user.date_joined,
         'user_seen': get_user.last_login,
         'user_posts': page,
-        "follow_status": is_following 
+        "follow_status": is_following,
+        "user_likes": getAllLikes(request) 
     })
 
 

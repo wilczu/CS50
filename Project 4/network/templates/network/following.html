@@ -12,8 +12,13 @@
             </div>
             <div class="card-footer text-muted">
               <p>Added on: {{ post.post_date }} | By: <a href="{% url 'profil' post.post_owner.id %}">{{ post.post_owner }}</a></p>
-              <button type="button" class="btn btn-primary">
-                &hearts; Likes <span class="badge badge-light">{{ post.post_likes }}</span>
+              <button type="button" class="btn btn-primary like" data-postid="{{ post.id }}">
+                {% if post.id in all_likes %}
+                  <span class="liked">&hearts;</span>
+                {% else %}
+                <span>&hearts;</span>
+                {% endif %} 
+                Likes <span class="badge badge-light">{{ post.likes_set.count }}</span>
                 <span class="sr-only">Likes</span>
               </button>
             </div>

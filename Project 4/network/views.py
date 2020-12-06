@@ -133,7 +133,7 @@ def profil(request, userID):
             is_following = False
     else:
         is_following = False
-        
+
     if request.method == "POST":
         action = request.POST['action']
         #Check if this user is already following the target
@@ -187,7 +187,8 @@ def following(request):
         page = pagination(request, all_posts, 10)
 
         return render(request, 'network/following.html', {
-            "followers_posts": page
+            "followers_posts": page,
+            "user_likes": getAllLikes(request) 
         })
     else:
         return redirect('index')

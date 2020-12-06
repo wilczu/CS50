@@ -122,15 +122,18 @@ def profil(request, userID):
         get_user = User.objects.get(pk=int(userID))
     except ObjectDoesNotExist:
         return HttpResponseNotFound('<h1>User not found</h1>')
-    
-    follower = User.objects.get(pk=int(request.user.id))
-    follow_object = Follows.objects.filter(follower = follower).filter(target = get_user)
 
-    if follow_object:
-        is_following = True
+    if request.user.is_authenticated:
+        follower = User.objects.get(pk=int(request.user.id))
+        follow_object = Follows.objects.filter(follower = follower).filter(target = get_user)
+
+        if follow_object:
+            is_following = True
+        else:
+            is_following = False
     else:
         is_following = False
-
+        
     if request.method == "POST":
         action = request.POST['action']
         #Check if this user is already following the target

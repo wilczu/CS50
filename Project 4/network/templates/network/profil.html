@@ -16,7 +16,7 @@
                             <h3 class="card-title">{{ user_nickname }}</h3>
                           </div>
 
-                          {% if user_nickname != user.username %}
+                          {% if user_nickname != user.username and user.is_authenticated %}
                             <form action="{% url 'profil' user_id %}" method="POST">
                               {% csrf_token %}
 

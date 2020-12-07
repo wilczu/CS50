@@ -64,7 +64,6 @@ def index(request):
         "all_likes": getAllLikes(request)
     })
 
-
 def login_view(request):
     if request.method == "POST":
 
@@ -204,7 +203,9 @@ def post(request):
 
     #Check if user is authenticated
     if not request.user.is_authenticated:
-        return redirect('login')
+        return JsonResponse({
+            "error": "User not authenticated!"
+        }, status = 401)
 
     #Getting edited post data
     post_request = json.loads(request.body)

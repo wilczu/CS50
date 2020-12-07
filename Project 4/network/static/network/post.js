@@ -83,9 +83,6 @@ function like(button) {
         method: 'PUT',
         body: JSON.stringify({post_id, action: 'like' })
     }).then(response => {
-        if (response.status == 200) {
-            console.log('Post liked!'); //DEBUG
-        }
         return response.json();
     }).then(result => {
         if(typeof result['error'] == 'undefined') {

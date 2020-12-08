@@ -64,6 +64,7 @@ def index(request):
         "all_likes": getAllLikes(request)
     })
 
+
 def login_view(request):
     if request.method == "POST":
 
@@ -235,7 +236,20 @@ def post(request):
 
     #execute when liking the post      
     elif action == 'like':
+
         #Check if user is already liking this post
-        return JsonResponse({"message": 'like saved!'}, status = 200)   
+        if get_post.id in getAllLikes(request):
+             #Unlike this post
+             remove_like = Likes.objects.filter(who_liked = request.user, post = get_post)
+             remove_like.delete()
+             return JsonResponse({"message": "Like has been removed!"}, status = 200)
+        else:
+            #Like this post
+            like_post = Likes.objects.create(
+                who_liked = request.user,
+                post = get_post
+            )
+            like_post.save()
+            return JsonResponse({"message": "post liked!"}, status = 201)
     else:
         return JsonResponse({"error": 'Incorrect action!'}, status = 400)

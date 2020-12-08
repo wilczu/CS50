@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll('button').forEach(button => {
-
-        let editButton = button.className == 'btn btn-light btn-edit';
-        let likeButton = button.className == 'btn btn-primary like';
-
         button.onclick = () => {
-            if (editButton) {
+            //Execute genEdit function when edit button pressed
+            if (button.className == 'btn btn-light btn-edit') {
                 genEditing(button);
-            } else if (likeButton) {
+            //Execute like function when like button pressed
+            } else if (button.className == 'btn btn-primary like') {
                 like(button);
             }
         }

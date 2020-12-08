@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function(){
-    console.log('document loaded!'); //TESTING
-
     document.querySelectorAll('button').forEach(button => {
 
         let editButton = button.className == 'btn btn-light btn-edit';
@@ -75,10 +73,7 @@ function genEditing(button) {
 }
 
 function like(button) {
-    console.log('Like button pressed!'); //DEBUG
-
     let post_id = button.dataset.postid;
-
     fetch('/post', {
         method: 'PUT',
         body: JSON.stringify({post_id, action: 'like' })

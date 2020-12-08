@@ -83,14 +83,27 @@ function like(button) {
         method: 'PUT',
         body: JSON.stringify({post_id, action: 'like' })
     }).then(response => {
+        if (response.status == 201) {
+            changeLikeContent(button, true);
+        } else if (response.status == 200){
+            changeLikeContent(button, false);
+        }
         return response.json();
     }).then(result => {
-        if(typeof result['error'] == 'undefined') {
-            //Everything went fine, post liked!
-            console.log('Everything is okay!');
-            console.log('Message: ' + result['message']);
-        } else {
-            console.log('Error: ' + result['error']);
-        }
+        console.log(result);
     });
+}
+
+function changeLikeContent(button, action) {
+    let span = button.querySelector('span');
+    let likes = button.getElementsByClassName('badge badge-light')[0];
+    let numerOfLikes = parseInt(likes.innerText);
+    if (action) {
+        span.classList.add('liked');
+        numerOfLikes++;
+    } else {
+        span.classList.remove('liked');
+        numerOfLikes--;
+    }
+    likes.innerText = numerOfLikes;
 }
